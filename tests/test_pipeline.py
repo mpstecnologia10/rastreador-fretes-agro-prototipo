@@ -65,6 +65,8 @@ class Domain(unittest.TestCase):
         n=normalize(r,p,NOW,self.cities)
         self.assertTrue(n["cnpj"]["digitos_validos"])
         self.assertFalse(cnpj_ok("00000000000000"))
+        self.assertTrue(cnpj_ok("12.ABC.345/01DE-35"))
+        self.assertFalse(cnpj_ok("12.ABC.345/01DE-99"))
         self.assertEqual(n["cnpj"]["situacao"],"NAO_CONSULTADA")
         self.assertEqual(n["rntrc"]["situacao"],"CONSULTA_MANUAL")
 

@@ -39,9 +39,10 @@ def digits(s):
     return re.sub(r"\D","",str(s or ""))
 
 def cnpj_ok(n):
-    if not re.fullmatch(r"\d{14}",n) or len(set(n))==1: return False
+    n=re.sub(r"[. /-]","",str(n or "")).upper()
+    if not re.fullmatch(r"[A-Z0-9]{12}[0-9]{2}",n) or len(set(n))==1: return False
     for weights in ([5,4,3,2,9,8,7,6,5,4,3,2],[6,5,4,3,2,9,8,7,6,5,4,3,2]):
-        rem=sum(int(x)*w for x,w in zip(n,weights))%11
+        rem=sum((ord(x)-48)*w for x,w in zip(n,weights))%11
         if int(n[len(weights)])!=(0 if rem<2 else 11-rem): return False
     return True
 
@@ -132,7 +133,7 @@ def normalize(r,p,now,cities):
     if value is not None and cents(value)==0: raise ValueError("valor abaixo de um centavo")
     kind={"por tonelada":"por_tonelada","fechado":"fechado","":None}[kind]
     company=text(r.get("transportadora") or p.get("company"))
-    raw_cnpj=digits(r.get("cnpj")) if r.get("cnpj") else ""
+    raw_cnpj=re.sub(r"[. /-]","",str(r.get("cnpj") or "")).upper()
     fiscal={ "digitos_validos":cnpj_ok(raw_cnpj) if raw_cnpj else None, "situacao":"NAO_CONSULTADA"}
     comp,reasons=compatibility(body,conf,float(weight) if weight else None,company)
     if (comp=="PROVAVEL" and weight is not None and weight<=50
