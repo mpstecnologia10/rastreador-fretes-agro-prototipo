@@ -3,6 +3,10 @@ import argparse
 import csv
 import io
 import re
+import http.client
+import ipaddress
+import socket
+import ssl
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from html.parser import HTMLParser
@@ -21,11 +25,21 @@ class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self,*args): return None
 
 def get(url,limit=512_000):
-    req=Request(url,headers={"User-Agent":AGENT})
-    with build_opener(NoRedirect()).open(req,timeout=6) as r:
-        raw=r.read(limit+1)
-        if len(raw)>limit: raise ValueError("limite")
-        return raw
+    u=urlsplit(url)
+    if not safe_url(url) or u.scheme!="https": raise ValueError("origem")
+    # Bind the connection to a verified public address; do not follow redirects.
+    info=socket.getaddrinfo(u.hostname,443,type=socket.SOCK_STREAM)
+    if not info or any(not ipaddress.ip_address(i[4][0]).is_global for i in info): raise ValueError("endereço não público")
+    ip=next((i[4][0] for i in info if i[0]==socket.AF_INET),info[0][4][0])
+    with socket.create_connection((ip,443),timeout=5) as sock:
+        with ssl.create_default_context().wrap_socket(sock,server_hostname=u.hostname) as tls:
+            conn=http.client.HTTPSConnection(u.hostname,timeout=5);conn.sock=tls
+            conn.request("GET",(u.path or "/")+("?"+u.query if u.query else ""),headers={"User-Agent":AGENT,"Accept-Encoding":"identity"})
+            with conn.getresponse() as r:
+                if r.status!=200:raise HTTPError(url,r.status,r.reason,r.headers,None)
+                raw=r.read(limit+1)
+                if len(raw)>limit:raise ValueError("limite")
+                return raw
 
 class Nav(HTMLParser):
     def __init__(self):
@@ -69,6 +83,8 @@ def inspect_site(site):
                 raw=get(sm)
                 if b"<!DOCTYPE" not in raw.upper():
                     tree=XML.fromstring(raw)
+                    if tree.tag.split("}")[-1] not in ("urlset","sitemapindex"): raise ValueError("não é sitemap")
+                    sitemap_ok=True
                     paths.extend((n.text,"") for n in tree.iter() if n.tag.split("}")[-1]=="loc" and n.text)
                     if tree.tag.split("}")[-1]=="sitemapindex":
                         children=[n.text for n in tree.iter() if n.tag.split("}")[-1]=="loc" and n.text]
@@ -88,9 +104,9 @@ def inspect_site(site):
             if not re.fullmatch(r"/[a-zA-Z./_-]{0,110}",u.path): continue
             mode=classify(u.path,mime)
             if mode and robots.can_fetch(AGENT,url): candidates.add((mode,safe_url(url)))
-        result.update(status="METADATA_ONLY" if paths or sitemap_ok else "NO_READABLE_METADATA",
+        result.update(sitemap_found=sitemap_ok,status="METADATA_ONLY" if paths or sitemap_ok else "NO_READABLE_METADATA",
                       candidates=[{"mode":m,"url":u} for m,u in sorted(candidates)[:60]])
-    except (OSError,ValueError): pass
+    except (OSError,ValueError,http.client.HTTPException): pass
     return result
 
 def api_metrics(rows):
