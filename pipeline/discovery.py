@@ -96,6 +96,18 @@ def inspect_site(site):
                                 paths.extend((n.text,"") for n in XML.fromstring(sub).iter() if n.tag.split("}")[-1]=="loc" and n.text)
                     sitemap_ok=True
             except (ValueError,OSError,XML.ParseError): pass
+        # Só o domínio de plataforma explicitamente ligado pela empresa. Não abrir
+        # destino, guardar telefone, convite, query, identificador de loja ou anúncio.
+        providers={"fretebras.com.br":"Fretebras","puxada.com.br":"Puxada","trizy.com.br":"Trizy",
+                   "strada.log.br":"Strada","motz.com.br":"Motz","vectorapp.com.br":"Vector",
+                   "wa.me":"WhatsApp","whatsapp.com":"WhatsApp","play.google.com":"Google Play","apps.apple.com":"App Store"}
+        signals=set()
+        for href,_ in paths:
+            try: domain=urlsplit(urljoin(site,href)).hostname or ""
+            except ValueError: continue
+            for suffix,label in providers.items():
+                if domain==suffix or domain.endswith("."+suffix):signals.add(label)
+        result["external_channel_signals"]=sorted(signals)
         candidates=set()
         for href,mime in paths:
             url=urljoin(site,href); u=urlsplit(url)

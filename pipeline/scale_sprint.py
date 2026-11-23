@@ -12,6 +12,11 @@ from .build import ROOT,read,write
 from .domain import iso,safe_url
 
 DIRECTORIES=[
+ ("https://www.abtp.org.br/site/composicao.php",".lista.borda p a[href]","TERMINAL_PORTUARIO"),
+ ("https://sindisan.com.br/associadas/",".divTableCell a[href]","TRANSPORTE_PORTUARIO"),
+ ("https://abrafrutas.org/associados/",".fwpl-item.el-4x1o88 a[href]","EXPORTACAO_FRUTAS"),
+ ("https://sindicomis.com.br/nossos-associados/",".elementor-widget-image .elementor-widget-container > a[href]","AGENTE_DE_CARGAS"),
+ ("https://fiata.org/directory/br/",'a[rel~="nofollow"][target="_blank"]:has(span.ml-3)',"AGENTE_DE_CARGAS"),
  ("https://www.abisolo.com.br/associados/","div.fusion-text strong a[href]","FERTILIZANTES"),
  ("https://anatc.com.br/empresas-associadas/","h2.elementor-heading-title a[href]","TRANSPORTE_AGRO"),
  ("https://abia.org.br/a-abia/associadas/",".abia-associates .elementor-widget-image a[href]","INDUSTRIA_ALIMENTAR"),
@@ -46,7 +51,9 @@ def run():
     now=iso(datetime.now(UTC))
     cached=read(prior,{})
     fresh=lambda stamp:bool(stamp) and 0<=(datetime.now(UTC)-datetime.fromisoformat(stamp.replace("Z","+00:00"))).days<14
-    rows=cached["records"] if cached.get("records") and fresh(cached.get("checked_at")) else [r for group in ThreadPoolExecutor(5).map(entries,DIRECTORIES) for r in group]
+    rows=list(cached.get("records",[])) if fresh(cached.get("checked_at")) else []
+    known={r["evidence"] for r in rows}
+    for group in ThreadPoolExecutor(5).map(entries,[d for d in DIRECTORIES if d[0] not in known]): rows.extend(group)
     if rows!=cached.get("records"):write(prior,{"checked_at":now,"records":rows})
     evidence={r["domain"].removeprefix("www."):r for r in rows}
     for url in read(ROOT/"data/discovery_domains.json"):

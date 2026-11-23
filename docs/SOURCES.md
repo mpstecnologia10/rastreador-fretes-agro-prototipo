@@ -1,5 +1,7 @@
 # Fontes e critérios
 
+PNCP: a [API oficial de dados abertos](https://www.gov.br/pncp/pt-br/acesso-a-informacao/dados-abertos) alimenta apenas a seção de contratações futuras. O coletor não transforma o endereço do órgão em origem da carga, nem o orçamento da contratação em preço do frete.
+
 Os modos e a evidência de consulta da [aquisição híbrida](HYBRID_ACQUISITION.md) complementam a classificação operacional; `FEDERATED_SEARCH` não muda uma plataforma `LINK_ONLY` para ingestão.
 
 As fontes candidatas estão em `data/candidates.csv`. A verificação de robots fica em `data/source_audit.json`. Robots informa preferência de acesso automatizado, não licença. "Termos não localizados" e "nenhum feed confirmado" não significam inexistência ou permissão.

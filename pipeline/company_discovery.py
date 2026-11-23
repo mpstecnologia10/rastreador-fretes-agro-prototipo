@@ -33,7 +33,7 @@ def extract(lines,evidence=URL):
         if category not in ("ETC","CTC") or uf not in STATES or not cnpj_ok(cnpj): continue
         if cnpj in results or counts[uf]>=2500: continue
         results[cnpj]={"empresa":r.get("razao_social") or r.get("nome_transportador"),"categoria":category,
-                       "uf":uf,"cnpj":cnpj,"municipio":r.get("municipio"),"situacao":r.get("situacao_rntrc"),"evidencia":evidence}
+                       "uf":uf,"cnpj":cnpj,"rntrc":r.get("numero_rntrc"),"municipio":r.get("municipio"),"situacao":r.get("situacao_rntrc"),"evidencia":evidence}
         counts[uf]+=1
         if len(results)>=20000:break
     return list(results.values())

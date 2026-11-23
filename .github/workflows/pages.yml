@@ -19,9 +19,15 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
+      - uses: actions/cache@v4
+        with:
+          path: .cache/pncp-opportunities.json
+          key: pncp-seen-${{ github.run_id }}
+          restore-keys: pncp-seen-
       - name: update-freights
         run: |
           python -m pipeline.acquisition
+          python -m pipeline.pncp
           python -m pipeline.build --public --inputs .cache/automatic-inputs --refresh-ibge --browser-runtime
       - uses: actions/upload-pages-artifact@v3
         with:

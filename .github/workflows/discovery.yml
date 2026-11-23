@@ -28,10 +28,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 -m pipeline.company_discovery
+      - run: python3 -m pipeline.distribution
       - uses: actions/upload-artifact@v4
         with:
           name: company-seeds
           path: .cache/company-discovery.json
+          include-hidden-files: true
+          retention-days: 31
+  distribution-channels:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '31 6 12 * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install beautifulsoup4
+      - run: python3 -m pipeline.scale_sprint
+      - run: python3 -m pipeline.distribution --graph
+      - uses: actions/upload-artifact@v4
+        with:
+          name: institutional-navigation
+          path: |
+            .cache/scale-scan.json
+            .cache/source-graph.json
           include-hidden-files: true
           retention-days: 31
   discover-geo:

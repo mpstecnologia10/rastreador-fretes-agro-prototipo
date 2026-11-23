@@ -1,5 +1,13 @@
 # Descoberta de fontes — 23/11/2026
 
+## Rodada de canais e oferta vigente (posterior ao levantamento abaixo)
+
+O CSV oficial RNTRC de outubro respondeu. Cache exclusivamente empresarial: 20.000 ETC/CTC nas oito UFs (2.500 por UF), sendo 15.575 ativos. Das 2.500 de MT, 1.970 estavam ativas; 1.000 ativas priorizadas, dando precedência aos nove polos e a indícios agro. Não presumimos que o site ou o canal de distribuição de cada CNPJ seja conhecido. Sem TAC nem exportação da base ao Pages.
+
+A consulta oficial de pregões com propostas abertas consultou nove municípios de MT e Tibagi/PR. Em 92 registros, confirmou o [edital de Tibagi](https://pncp.gov.br/app/editais/76170257000153/2026/223) com prazo em 09/12/2026 às 14h de Brasília. Preço unitário de frete, origem e destino não confirmados. O frontend descarta dados há mais de 24h sem confirmação e prazos encerrados. Em uma consulta adicional por UF o PNCP limitou requisições (429); o adaptador municipal usa intervalos e interrompe ao receber limitação.
+
+O mapa de canais diferencia cinco relações de distribuição de duas de cadastro/agendamento. Na amostra confirmada de cinco, duas levam a Fretebras, duas a aplicativos e uma ao WhatsApp; nenhuma libera ingestão spot. Não extrapolar esses percentuais aos 20.000 CNPJs. A documentação B2B da [FreteConnect](https://freteconnect.com.br/documentacao-api) limita a consulta aos fretes da empresa titular do token. A [Puxada](https://www.puxada.com.br/termos) não forneceu autorização de agregação. Não armazenamos anúncios, contatos ou conversas desses canais. Próxima via automática: verificar integrações de leitura e widgets de distribuição expressamente licenciados nas plataformas identificadas pelo grafo de links; não usar a interface privada de um aplicativo como API.
+
 **Resultado:** encontramos uma fonte documental oficial e extraímos cinco lotes reais de transporte de milho em teste interno. Todos estavam encerrados. Não são cinco viagens disponíveis, nem cinco caminhões contratáveis. Nenhum dado do aviso foi integrado ao Pages.
 
 ## Universo e denominadores

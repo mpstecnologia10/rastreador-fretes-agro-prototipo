@@ -1,5 +1,7 @@
 # Avaliação e piloto de sete dias
 
+23/11/2026 — Primeiro resultado automático vigente **de contratação pública**: edital 76/2026 de Tibagi, PR, confirmado na API e renderizado no navegador. Na mesma sessão a busca por Primavera do Leste/MT retornou zero fretes imediatos. O piloto spot ainda não atende ao critério funcional; listas federadas e editais não contam para esse indicador.
+
 Rodada de 23/11/2026: 330 domínios tentados, 213 com metadados úteis e cinco lotes históricos reais de milho extraídos da Conab em ambiente interno. Nenhum estava aberto em 23/11, portanto **zero fretes disponíveis para o motorista**. Consulte o [relatório de descoberta em escala](SOURCE_DISCOVERY_REPORT.md) para os denominadores, os canais restritos e as limitações de licença. A capacidade de obter documentos reais foi demonstrada; a utilidade diária do catálogo spot permanece não comprovada.
 
 Atualização híbrida: o teste técnico já pode começar com análise manual privada e links oficiais, sem esperar dois fornecedores. Execute a oferta de exemplo por texto e depois peça ao motorista uma mensagem de acesso legítimo; não anexe a mensagem a relatórios. Compare campos corrigidos, tempo até avaliação, adequação do conjunto, disponibilidade confirmada e abertura do link. Primeiro feed autorizado inicia o teste de ingestão; um segundo independente permite testar deduplicação real e cobertura conjunta. O piloto real e a viabilidade comercial permanecem pendentes. Os números do ensaio abaixo são da primeira avaliação, anterior à interface híbrida.

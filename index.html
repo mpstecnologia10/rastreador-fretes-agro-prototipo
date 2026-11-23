@@ -7,6 +7,7 @@
   <title>Rastreador de Fretes Agro</title>
   <link rel="stylesheet" href="assets/style.css"><script type="module" src="assets/app.js"></script>
   <script type="module" src="assets/capture.js"></script>
+  <script type="module" src="assets/editais.js"></script>
 </head>
 <body>
   <header class="top"><div class="wrap masthead"><a class="brand" href="./"><span class="mark" aria-hidden="true">FA</span> Fretes Agro</a><a class="jump" href="#fontes">Status das fontes</a></div></header>
@@ -56,6 +57,9 @@
       <div id="capture-result" aria-live="polite"></div>
       <div class="link-list"><a target="_blank" rel="noopener noreferrer" href="https://calculadorafrete.antt.gov.br/">Calculadora oficial ANTT</a><a target="_blank" rel="noopener noreferrer" href="https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx">Consultar RNTRC</a><a target="_blank" rel="noopener noreferrer" href="https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/cnpj/cadastro-nacional-de-pessoas-juridicas-cnpj">Consultar CNPJ</a><a target="_blank" rel="noopener noreferrer" href="https://sifreca.esalq.usp.br/sifreca">Consultar SIFRECA</a></div>
     </section>
+    <section class="panel reference-box"><h2>Contratações futuras de transporte</h2>
+      <p>Editais públicos com propostas abertas. O município é o do comprador, não necessariamente o local de coleta. Não são fretes para carregar agora.</p>
+      <div id="editais" aria-live="polite">Consultando editais…</div></section>
     <section class="panel reference-box"><h2>Contexto agro</h2>
       <p>Em 2025, o Arco Norte exportou 56,5 milhões de toneladas de milho e soja, conforme o <a href="https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf" target="_blank" rel="noopener noreferrer">Anuário ANTAQ 2025</a>. É um indicador regional de escoamento, não uma contagem de fretes nem uma previsão de disponibilidade.</p>
       <p>Acompanhe o calendário e a produção de grãos nos <a href="https://www.gov.br/conab/pt-br/atuacao/informacoes-agropecuarias/safras/safra-de-graos" target="_blank" rel="noopener noreferrer">levantamentos da Conab</a>. Esses indicadores não alteram a classificação das ofertas.</p>

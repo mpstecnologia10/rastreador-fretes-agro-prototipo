@@ -1,0 +1,214 @@
+{
+  "companies": [
+    {
+      "empresa": "RDM Transportes",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": "Rondonópolis",
+      "uf": "MT",
+      "site": "https://rdmtransportes.com.br/",
+      "freight_distribution_channels": [
+        {
+          "platform": "Fretebras",
+          "type": "public_page",
+          "evidence": "https://rdmtransportes.com.br/",
+          "scope": "DISTRIBUICAO"
+        }
+      ],
+      "platform": "Fretebras",
+      "app": null,
+      "portal": null,
+      "public_page": "https://rdmtransportes.com.br/",
+      "api": null,
+      "feed": null,
+      "whatsapp_business": null,
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": "2026-11-23",
+      "confidence": "PUBLIC_EVIDENCE",
+      "ingestion_possible": false,
+      "ingestion_reason": "Sem licença verificada para coleta e republicação",
+      "federated_possible": true
+    },
+    {
+      "empresa": "JCL Transportes",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": null,
+      "uf": null,
+      "site": "https://jcltransportes.com.br/fretes-disponiveis/",
+      "freight_distribution_channels": [
+        {
+          "platform": "Fretebras",
+          "type": "public_page",
+          "evidence": "https://jcltransportes.com.br/fretes-disponiveis/",
+          "scope": "DISTRIBUICAO"
+        }
+      ],
+      "platform": "Fretebras",
+      "app": null,
+      "portal": null,
+      "public_page": "https://jcltransportes.com.br/fretes-disponiveis/",
+      "api": null,
+      "feed": null,
+      "whatsapp_business": null,
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": "2026-11-23",
+      "confidence": "PUBLIC_EVIDENCE",
+      "ingestion_possible": false,
+      "ingestion_reason": "Sem licença verificada para coleta e republicação",
+      "federated_possible": true
+    },
+    {
+      "empresa": "Fribon Transportes",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": null,
+      "uf": null,
+      "site": "https://fribontransportes.com.br/fretes/",
+      "freight_distribution_channels": [
+        {
+          "platform": "Aplicativo Fribon",
+          "type": "app",
+          "evidence": "https://fribontransportes.com.br/fretes/",
+          "scope": "DISTRIBUICAO"
+        }
+      ],
+      "platform": "Aplicativo Fribon",
+      "app": "https://fribontransportes.com.br/fretes/",
+      "portal": null,
+      "public_page": null,
+      "api": null,
+      "feed": null,
+      "whatsapp_business": null,
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": "2026-11-23",
+      "confidence": "PUBLIC_EVIDENCE",
+      "ingestion_possible": false,
+      "ingestion_reason": "Sem licença verificada para coleta e republicação",
+      "federated_possible": true
+    },
+    {
+      "empresa": "Botuverá",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": null,
+      "uf": null,
+      "site": "https://botuvera.com/agenciamento-de-cargas/",
+      "freight_distribution_channels": [
+        {
+          "platform": "WhatsApp Business",
+          "type": "whatsapp_business",
+          "evidence": "https://botuvera.com/agenciamento-de-cargas/",
+          "scope": "DISTRIBUICAO"
+        }
+      ],
+      "platform": "WhatsApp Business",
+      "app": null,
+      "portal": null,
+      "public_page": null,
+      "api": null,
+      "feed": null,
+      "whatsapp_business": "https://botuvera.com/agenciamento-de-cargas/",
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": "2026-11-23",
+      "confidence": "PUBLIC_EVIDENCE",
+      "ingestion_possible": false,
+      "ingestion_reason": "Sem licença verificada para coleta e republicação",
+      "federated_possible": true
+    },
+    {
+      "empresa": "Motz",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": null,
+      "uf": null,
+      "site": "https://play.google.com/store/apps/details?id=com.motz.app",
+      "freight_distribution_channels": [
+        {
+          "platform": "Motz",
+          "type": "app",
+          "evidence": "https://play.google.com/store/apps/details?id=com.motz.app",
+          "scope": "DISTRIBUICAO"
+        }
+      ],
+      "platform": "Motz",
+      "app": "https://play.google.com/store/apps/details?id=com.motz.app",
+      "portal": null,
+      "public_page": null,
+      "api": null,
+      "feed": null,
+      "whatsapp_business": null,
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": "2026-11-23",
+      "confidence": "PUBLIC_EVIDENCE",
+      "ingestion_possible": false,
+      "ingestion_reason": "Sem licença verificada para coleta e republicação",
+      "federated_possible": true
+    },
+    {
+      "empresa": "G10 Transportes",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": null,
+      "uf": null,
+      "site": "https://cadastros.g10transportes.com.br/",
+      "freight_distribution_channels": [
+        {
+          "platform": "Cadastro G10",
+          "type": "portal",
+          "evidence": "https://cadastros.g10transportes.com.br/",
+          "scope": "SINAL_OPERACIONAL"
+        }
+      ],
+      "platform": "Cadastro G10",
+      "app": null,
+      "portal": "https://cadastros.g10transportes.com.br/",
+      "public_page": null,
+      "api": null,
+      "feed": null,
+      "whatsapp_business": null,
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": "2026-11-23",
+      "confidence": "PUBLIC_EVIDENCE",
+      "ingestion_possible": false,
+      "ingestion_reason": "Cadastro/agendamento não é oferta",
+      "federated_possible": false
+    },
+    {
+      "empresa": "Rumo",
+      "cnpj": null,
+      "rntrc": null,
+      "cidade": "Rondonópolis",
+      "uf": "MT",
+      "site": "https://www.rumolog.com/sala-de-imprensa/terminal-de-rondonopolis-tem-capacidade-para-receber-ate-2-mil-caminhoes-por-dia-no-auge-da-safra/",
+      "freight_distribution_channels": [
+        {
+          "platform": "Trizy",
+          "type": "portal",
+          "evidence": "https://www.rumolog.com/sala-de-imprensa/terminal-de-rondonopolis-tem-capacidade-para-receber-ate-2-mil-caminhoes-por-dia-no-auge-da-safra/",
+          "scope": "SINAL_OPERACIONAL"
+        }
+      ],
+      "platform": "Trizy",
+      "app": null,
+      "portal": "https://www.rumolog.com/sala-de-imprensa/terminal-de-rondonopolis-tem-capacidade-para-receber-ate-2-mil-caminhoes-por-dia-no-auge-da-safra/",
+      "public_page": null,
+      "api": null,
+      "feed": null,
+      "whatsapp_business": null,
+      "other_channel": null,
+      "discovered_at": "2026-11-23",
+      "verified_at": null,
+      "confidence": "HISTORICAL",
+      "ingestion_possible": false,
+      "ingestion_reason": "Cadastro/agendamento não é oferta",
+      "federated_possible": false
+    }
+  ]
+}
