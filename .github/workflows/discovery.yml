@@ -1,0 +1,48 @@
+name: Descoberta de fontes
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '43 5 * * 1'
+    - cron: '31 6 12 * *'
+    - cron: '11 8 2,18 * *'
+permissions:
+  contents: read
+jobs:
+  discover-sources:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '43 5 * * 1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: discover-apis and check-operational-signals
+        run: python3 -m pipeline.discovery --output discovery-report.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-discovery
+          path: discovery-report.json
+          retention-days: 14
+  discover-companies:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '31 6 12 * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pipeline.company_discovery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: company-seeds
+          path: .cache/company-discovery.json
+          include-hidden-files: true
+          retention-days: 31
+  discover-geo:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '11 8 2,18 * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pipeline.geo --refresh --output geo-report
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geo-discovery
+          path: geo-report/
+          retention-days: 21

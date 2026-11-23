@@ -139,6 +139,8 @@ def run(args):
                     report.append(entry)
                 continue
             report.append(entry)
+            if policy.get("mode") in ("OPEN_API","FREE_DOCUMENTED_API","OPEN_INGEST","PUBLIC_FEED"):
+                entry.update(acquisition_mode=policy["mode"],coleta_automatica=True)
             entry.update(can_ingest=True,can_republish=policy.get("publish") is True)
             raw_count+=len(rows)
             entry["encontradas"]=len(rows)
@@ -174,8 +176,14 @@ def run(args):
     write(data/"cargas.json",{**shared,"cargas":loads})
     write(data/"sources_registry.json",{**shared,"fontes":report})
     geographic=read(ROOT/"data/geo_entities.json",{})
-    for name in ("geo_entities.json","company_platform_map.json","route_context.json"):
+    for name in ("geo_entities.json","company_platform_map.json","route_context.json","api_registry.json","discovery_snapshot.json"):
         if (ROOT/"data"/name).is_file(): shutil.copy2(ROOT/"data"/name,data/name)
+    platform_map=read(data/"company_platform_map.json",{"entries":[]})
+    scan=read(ROOT/"data/discovery_snapshot.json",{"domains":[]})
+    apis=read(ROOT/"data/api_registry.json",{"entries":[]})
+    platform_map["api_evaluations"]=[{k:r[k] for k in ("empresa","docs_url","api_type","status")} for r in apis["entries"]]
+    platform_map["public_domain_candidates"]={r["domain"]:r["candidates"] for r in scan["domains"] if r["candidates"]}
+    write(data/"company_platform_map.json",platform_map)
     write(data/"municipios.json",{"hubs":read(ROOT/"data/hubs.json"),
                                 "official":[{"id":c["ibge"],"nome":c["nome"]} for c in cities.ids.values()]})
     write(data/"meta.json",{**shared,"atualizado_em":iso(now),"duracao_s":round(monotonic()-then,3),
@@ -191,6 +199,9 @@ def run(args):
         "user_captures_processed":0,"parser_success_rate":None,"parser_partial_rate":None,"parser_failure_rate":None,
         "loads_with_market_reference":0,"loads_with_antt_reference":0,
         **geographic.get("metrics",{}),
+        **read(ROOT/"data/discovery_snapshot.json",{}).get("api_metrics",{}),
+        "active_api_adapters":sum(r.get("acquisition_mode") in ("OPEN_API","FREE_DOCUMENTED_API") and r.get("can_ingest") for r in report),
+        "api_freights_collected":sum(r["aproveitadas"] for r in report if r.get("acquisition_mode") in ("OPEN_API","FREE_DOCUMENTED_API")),
         "municipios_catalogados":len(cities.ids),"hubs":hubs,"escopo_ufs":list(STATES.values())})
     write(state_path,state)
     shutil.copy2(ROOT/"index.html",args.output/"index.html")
