@@ -42,7 +42,7 @@ if __name__=="__main__":
     try: source=current_resource()
     except (OSError,ValueError,TypeError,KeyError): source=URL
     try:
-        with urlopen(source,timeout=12) as r:
+        with urlopen(source,timeout=60) as r:
             if urlsplit(r.geturl()).hostname!="dados.antt.gov.br":raise ValueError()
             initial=r.readline(4096)
             print("Cabeçalho RNTRC:",initial.decode("utf-8-sig",errors="replace")[:300] if b";" in initial and b"rntrc" in initial.lower() else "formato não confirmado")
@@ -52,5 +52,6 @@ if __name__=="__main__":
             rows=extract(itertools.chain([header],io.TextIOWrapper(r,encoding="latin-1")),source)
         status="OK" if rows else "NO_MATCH_OR_SCHEMA_UNVERIFIED"
     except (OSError,ValueError,csv.Error): rows=[];status="UNAVAILABLE"
-    write(ROOT/".cache/company-discovery.json",{"source":source,"status":status,"companies":rows})
+    cache=ROOT/".cache/company-discovery.json"
+    if rows or not cache.exists():write(cache,{"source":source,"status":status,"companies":rows})
     print(status,len(rows))
