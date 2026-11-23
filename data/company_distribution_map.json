@@ -1,6 +1,16 @@
 {
   "companies": [
     {
+      "empresa":"S.E. Transportes e Representações Ltda.",
+      "cnpj":"08.289.975/0001-93","rntrc":null,"cidade":"Itumbiara","uf":"GO",
+      "site":"https://setransportes.com.br/",
+      "freight_distribution_channels":[{"platform":"S.E. Transportes Cargas","type":"app","evidence":"https://setransportes.com.br/","scope":"DISTRIBUICAO"}],
+      "platform":"S.E. Transportes Cargas","app":"https://play.google.com/store/apps/details?id=com.setransportes.se_projeto_cargas",
+      "portal":null,"public_page":null,"api":null,"feed":null,"whatsapp_business":null,"other_channel":null,
+      "discovered_at":"2026-11-23","verified_at":"2026-11-23","confidence":"PUBLIC_EVIDENCE","ingestion_possible":false,
+      "ingestion_reason":"Busca por origem e destino no aplicativo oficial, sem API pública licenciada identificada.","federated_possible":true
+    },
+    {
       "empresa": "RDM Transportes",
       "cnpj": null,
       "rntrc": null,

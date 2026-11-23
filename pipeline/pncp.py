@@ -34,27 +34,38 @@ def opportunity(r, now, first):
 
 def collect(now):
     path=ROOT/".cache/pncp-opportunities.json"
-    first={r["id"]:r["first_seen_at"] for r in read(path,{"editais":[]})["editais"]}
-    rows={};errors=[]; scanned=0
+    seed=read(ROOT/"data/pncp_verified.json",{"editais":[]})
+    previous={r["id"]:r for r in seed["editais"]+read(path,{"editais":[]})["editais"]}
+    first={i:r["first_seen_at"] for i,r in previous.items()}
+    rows={};errors=[]; scanned=0; complete=set(); observed=set()
     for city in POLOS:
         try:
             for page in range(1,21):
                 query=urlencode(dict(dataFinal=(now+timedelta(days=60)).strftime("%Y%m%d"),codigoModalidadeContratacao=6,
                     codigoMunicipioIbge=city,pagina=page,tamanhoPagina=50))
                 with urlopen(BASE+"?"+query,timeout=20) as res:
-                    if res.status==204:break
+                    if res.status==204:
+                        complete.add(city);break
                     payload=json.load(res)
                 for r in payload["data"]:
                     scanned+=1
+                    observed.add(r["numeroControlePNCP"])
                     record=opportunity(r,now,first)
-                    if record:rows[record["id"]]=record
-                if not payload["paginasRestantes"]:break
+                    if record:rows[record["id"]]=dict(record,ibge_comprador=city)
+                if not payload["paginasRestantes"]:
+                    complete.add(city);break
                 time.sleep(5)
         except HTTPError as e:
             errors.append([city,e.code])
             if e.code in (403,429):break
-        except (OSError,ValueError,KeyError) as e:errors.append([city,type(e).__name__])
+        except (OSError,ValueError,KeyError) as e:
+            errors.append([city,type(e).__name__])
+            if not complete and len(errors)>=2:break
         time.sleep(5)
+    for i,r in previous.items():
+        if (i not in observed and r.get("ibge_comprador") in set(POLOS)-complete and
+            now-timedelta(hours=24)<local_time(r["last_seen_at"])<=now<local_time(r["expires_at"])):
+            rows[i]=r
     snapshot={"collected_at":iso(now),"checked_records":scanned,"errors":errors,"editais":list(rows.values())}
     write(path,snapshot)
     print("PNCP:",scanned,"analisados;",len(rows),"editais;",errors)

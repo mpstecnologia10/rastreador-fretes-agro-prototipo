@@ -15,6 +15,7 @@ try {
         new Intl.DateTimeFormat("pt-BR",{dateStyle:"short",timeStyle:"short",timeZone:"America/Sao_Paulo"}).format(new Date(r.expires_at))+" (Brasília). ",a);
       box.append(p);
     }
+    if(valid.length && snapshot.errors?.length)box.append("Consulta parcial. Somente editais confirmados nas últimas 24 horas.");
     if(!valid.length) box.textContent=snapshot.errors?.length?"Consulta incompleta; nenhum edital vigente confirmado nesta amostra.":"Nenhum edital vigente confirmado nesta amostra.";
   }
   render(); setInterval(render,60000);

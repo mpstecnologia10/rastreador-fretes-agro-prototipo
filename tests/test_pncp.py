@@ -1,4 +1,9 @@
 import unittest
+from unittest.mock import patch
+from tempfile import TemporaryDirectory
+from pathlib import Path
+from pipeline.build import write,read
+from pipeline import pncp
 from datetime import datetime,UTC
 from pipeline.pncp import opportunity
 from pipeline.distribution import prioritize
@@ -19,3 +24,12 @@ class Procurements(unittest.TestCase):
     def test_rntrc_priority(self):
         row=dict(empresa="Transportadora",uf="MT",cnpj="A",municipio="Primavera do Leste",categoria="ETC",situacao="ATIVO")
         self.assertEqual(prioritize([row|{"situacao":"PENDENTE"},row|{"uf":"GO"},row])[0],row)
+    def test_unavailable_is_not_new_confirmation(self):
+        with TemporaryDirectory() as tmp,patch.object(pncp,"ROOT",Path(tmp)),patch.object(pncp.time,"sleep"),patch.object(pncp,"urlopen",side_effect=TimeoutError):
+            r=opportunity(self.row,self.now,{})|{"ibge_comprador":4127502}
+            write(Path(tmp)/"data/pncp_verified.json",{"editais":[r]})
+            pncp.collect(self.now)
+            path=Path(tmp)/".cache/pncp-opportunities.json"
+            self.assertEqual(read(path)["editais"],[r])
+            pncp.collect(self.now+pncp.timedelta(hours=25))
+            self.assertEqual(read(path)["editais"],[])
