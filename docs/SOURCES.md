@@ -1,5 +1,7 @@
 # Fontes e critérios
 
+Os modos e a evidência de consulta da [aquisição híbrida](HYBRID_ACQUISITION.md) complementam a classificação operacional; `FEDERATED_SEARCH` não muda uma plataforma `LINK_ONLY` para ingestão.
+
 As fontes candidatas estão em `data/candidates.csv`. A verificação de robots fica em `data/source_audit.json`. Robots informa preferência de acesso automatizado, não licença. "Termos não localizados" e "nenhum feed confirmado" não significam inexistência ou permissão.
 
 - LINK_ONLY: Fretebras [cláusulas 1.11 e 5.11](https://www.fretebras.com.br/termos-de-uso); [Vector](https://login.vectorapp.com.br/login) com conta; [Trizy](https://cdn.trizy.com.br/v2.0/termos_de_uso.pdf); [Motz](https://motz.com.br/) e [Strada](https://strada.log.br/personas/motoristas/) direcionam ao app; [Puxada](https://www.puxada.com.br/planos/motorista) apresenta planos/consultas; [Coamo](https://www.youtube.com/watch?v=1hz4dS1d_5g) apresenta aplicativo próprio. Nenhum anúncio dessas fontes foi baixado.

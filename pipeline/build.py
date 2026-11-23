@@ -1,6 +1,7 @@
 import argparse
 import csv
 import json
+import re
 import shutil
 import tempfile
 from collections import Counter
@@ -11,7 +12,7 @@ from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 from .adapters.authorized import AuthorizedFile
-from .domain import SCHEMA, STATES, Cities, digest, instant, iso, normalize, safe_url, text
+from .domain import SCHEMA, STATES, Cities, cents, decimal, digest, instant, iso, normalize, safe_url, text
 from .ranking import merge, opportunities
 from .routing import Router
 
@@ -63,13 +64,22 @@ def demo(now):
 
 def sources(audit):
     raw=csv.DictReader((ROOT/"data/candidates.csv").read_text(encoding="utf-8").splitlines())
+    extra=read(ROOT/"data/hybrid_sources.json")
     return [{
       **r,"estados":r["estados"].split(),"coleta_automatica":r["id"]=="ibge","login":r["tipo"]=="login",
       "captcha":"não verificado","termos_revisados":r["id"] in ("fretebras","trizy"),
       "prioridade":1 if r["id"] in {"fiagril","amaggi","cs","1500"} else 2,
       "ultima_tentativa":None,"ultimo_sucesso":None,"encontradas":0,"aproveitadas":0,"status":"NÃO COLETADA","erro":None,
       "descoberta":audit.get(r["id"],{}),
+      **source_mode("OFFICIAL_VALIDATION" if r["classificacao"]=="OFFICIAL_VALIDATION" else "PUBLISHER_INPUT",
+                    requires_login=True if r["tipo"]=="login" else None, can_ingest=r["id"]=="ibge"),
+      **extra.get(r["id"],{}),
     } for r in raw]
+
+def source_mode(mode, **fields):
+    return dict({"acquisition_mode":mode,"search_url_template":None,"supports_origin_param":False,
+                 "supports_destination_param":False,"supports_vehicle_param":False,"requires_login":None,
+                 "can_republish":False,"can_ingest":False,"terms_checked_at":None,"terms_notes":None},**fields)
 
 def run(args):
     then=monotonic()
@@ -110,7 +120,6 @@ def run(args):
             if args.public and policy.get("publish") is not True:
                 continue
             source=policy.get("id")
-            import re
             if not isinstance(source,str) or not re.fullmatch(r"feed-[a-z0-9-]{2,50}",source) or source in existing or policy.get("synthetic"):
                 raise ValueError("identificador de feed inválido ou repetido")
             existing.add(source)
@@ -119,7 +128,9 @@ def run(args):
                    "tipo":policy.get("adapter"),"classificacao":"AUTHORIZED_FEED","coleta_automatica":False,
                    "login":False,"captcha":False,"termos_revisados":bool(policy.get("permission_ref")),
                    "prioridade":1,"ultima_tentativa":iso(now),"ultimo_sucesso":state.setdefault("success",{}).get(source),
-                   "encontradas":0,"aproveitadas":0,"status":"OK","erro":None}
+                   "encontradas":0,"aproveitadas":0,"status":"OK","erro":None,
+                   **source_mode("PUBLISHER_INPUT",requires_login=False,
+                                 terms_notes="Escopo do arquivo aprovado separadamente.")}
             a=AuthorizedFile(args.inputs,policy,now,args.public)
             try: rows=a.healthcheck()
             except (OSError,ValueError,TypeError,KeyError):
@@ -128,10 +139,23 @@ def run(args):
                     report.append(entry)
                 continue
             report.append(entry)
+            entry.update(can_ingest=True,can_republish=policy.get("publish") is True)
             raw_count+=len(rows)
             entry["encontradas"]=len(rows)
             for row in rows:
-                try: real.append(a.normalize(row,cities))
+                try:
+                    normalized=a.normalize(row,cities)
+                    if args.public:
+                        floor=row.get("piso_antt_centavos")
+                        if isinstance(floor,str) and re.fullmatch(r"[0-9]{1,12}",floor.strip()):
+                            floor=int(floor)
+                        offered=normalized["valor_centavos"]
+                        if normalized["tipo_precificacao"]=="por_tonelada":
+                            offered=cents(decimal(row["valor"])*decimal(row["peso_t"])) if row.get("peso_t") else None
+                        if (policy.get("public_antt_reviewed") is not True or type(floor) is not int
+                            or floor<=0 or offered is None or offered<floor):
+                            raise ValueError("validação de preço/piso para publicação não confirmada")
+                    real.append(normalized)
                 except (ValueError,TypeError,KeyError,OverflowError): rejected+=1
                 else: entry["aproveitadas"]+=1
             if entry["aproveitadas"]==len(rows):
@@ -149,6 +173,8 @@ def run(args):
         write(data/"oportunidades"/(hub["ibge"]+".json"),{**shared,"municipio":hub,"oportunidades":opportunities(hub,loads,routing)})
     write(data/"cargas.json",{**shared,"cargas":loads})
     write(data/"sources_registry.json",{**shared,"fontes":report})
+    write(data/"municipios.json",{"hubs":read(ROOT/"data/hubs.json"),
+                                "official":[{"id":c["ibge"],"nome":c["nome"]} for c in cities.ids.values()]})
     write(data/"meta.json",{**shared,"atualizado_em":iso(now),"duracao_s":round(monotonic()-then,3),
         "bruto":raw_count,"valido":len(real),"rejeitadas":rejected,"duplicatas":len(real)-len(loads),"total":len(loads),
         "reais":sum(not r["sintetico"] for r in loads),"com_preco":sum(r["valor_centavos"] is not None for r in loads),
@@ -156,10 +182,18 @@ def run(args):
         "por_estado":dict(Counter(r["origem"]["uf"] for r in loads)),"por_produto":dict(Counter(r["produto"] for r in loads)),
         "fontes_ativas":sum(r["status"]=="OK" and r["aproveitadas"]>0 and r["classificacao"] in ("AUTHORIZED_FEED","INGEST") for r in report),
         "fontes_falhando":sum(r["status"].startswith("FALHA") for r in report),
+        **{key:sum(r["acquisition_mode"]==mode for r in report) for key,mode in {
+            "open_ingest_sources":"OPEN_INGEST","federated_sources":"FEDERATED_SEARCH",
+            "context_sources":"CONTEXT_SOURCE","restricted_sources":"RESTRICTED_SOURCE"}.items()},
+        "user_captures_processed":0,"parser_success_rate":None,"parser_partial_rate":None,"parser_failure_rate":None,
+        "loads_with_market_reference":0,"loads_with_antt_reference":0,
         "municipios_catalogados":len(cities.ids),"hubs":hubs,"escopo_ufs":list(STATES.values())})
     write(state_path,state)
     shutil.copy2(ROOT/"index.html",args.output/"index.html")
     shutil.copytree(ROOT/"assets",args.output/"assets",dirs_exist_ok=True)
+    if getattr(args,"browser_runtime",False):
+        from .runtime import install
+        install(args.output/"runtime",args.cache,ROOT)
     return read(data/"meta.json")
 
 def osrm(a,b):
@@ -175,6 +209,7 @@ def main():
     p.add_argument("--demo",action="store_true")
     p.add_argument("--public",action="store_true")
     p.add_argument("--refresh-ibge",action="store_true")
+    p.add_argument("--browser-runtime",action="store_true",help="Inclui o runtime verificado da análise privada")
     p.add_argument("--osrm",action="store_true",help="Apoio manual e limitado do protótipo; não usar em publicação agendada")
     p.add_argument("--now")
     p.add_argument("--output",type=Path,default=ROOT/"dist")

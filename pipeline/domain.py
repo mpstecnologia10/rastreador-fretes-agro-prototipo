@@ -145,6 +145,7 @@ def normalize(r,p,now,cities):
     valid_until=iso(expiry) if expiry else None
     credit=text(r.get("referencia_embarcador"),80)
     evidence={"fonte_id":p["id"],"oferta_id":digest(p["id"]+":"+external),"url":offer,"publicado_em":iso(posted),
+              "submission_source":"fixture" if p.get("synthetic") else "publisher",
               "validade":valid_until,"coletado_em":iso(now),"sintetico":bool(p.get("synthetic"))}
     return {"schema_version":SCHEMA,"origem":start,"destino":end,"produto":product,"carroceria":body or None,
             "configuracao":conf or None,"peso_t":float(weight) if weight else None,"preco_original":text(r.get("valor")) if value is not None else None,

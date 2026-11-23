@@ -2,9 +2,11 @@
 
 Busque por cidade onde o caminhão ficará vazio e raio de 0/50/100/150 km. O corredor de validação inicial é Primavera do Leste–Campo Verde–Rondonópolis, com catálogo de oito UFs e 16 hubs. Projeto independente; não usa contas, banco ou código do Minha Comissão.
 
+Em **Analisar uma oferta**, cole um texto ao qual você tem acesso legítimo. A revisão e o cálculo são locais no navegador e não entram no catálogo. **Pesquisar também** abre plataformas oficiais sem importar anúncios. Veja [aquisição híbrida](docs/HYBRID_ACQUISITION.md).
+
 ```bash
 python3 -m unittest discover -s tests -v
-python3 -m pipeline.build --demo --refresh-ibge
+python3 -m pipeline.build --demo --refresh-ibge --browser-runtime
 python3 -m http.server 8219 --bind 127.0.0.1 --directory dist
 ```
 

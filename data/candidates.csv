@@ -23,3 +23,11 @@ rumo,Rumo,Rumo,operador,https://rumolog.com/,MT GO MS PR SP RS,site,PUBLIC_DISCO
 ibge,IBGE Localidades,IBGE,validação,https://servicodados.ibge.gov.br/api/v1/localidades/municipios,MT GO MS PR SP MG PA RS,api,OFFICIAL_VALIDATION,,API oficial de municípios; não contém ofertas de frete.
 antt,Consulta RNTRC,ANTT,validação,https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx,MT GO MS PR SP MG PA RS,manual,OFFICIAL_VALIDATION,,Consulta humana; nenhuma automação autorizada no piloto.
 receita,Cadastro CNPJ,Receita Federal,validação,https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/cnpj/cadastro-nacional-de-pessoas-juridicas-cnpj,MT GO MS PR SP MG PA RS,manual,OFFICIAL_VALIDATION,,Comprovante cadastral manual; nenhum selo ativo sem consulta.
+webfrete,WebFrete,WebFrete,plataforma,,MT GO MS PR SP MG PA RS,manual,LINK_ONLY,,Acesso fora do protótipo; não coletado.
+telegram,Telegram e grupos,Telegram,grupo,,MT GO MS PR SP MG PA RS,manual,LINK_ONLY,,Nenhum grupo é coletado.
+sifreca,SIFRECA,ESALQ-USP,mercado,https://sifreca.esalq.usp.br/sifreca,MT GO MS PR SP MG PA RS,manual,CONTEXT_ONLY,,Indicadores de frete; não são anúncios.
+antaq,Anuário ANTAQ,ANTAQ,porto,https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/Anuario2025.pdf,MT PA SP PR RS,manual,CONTEXT_ONLY,,Movimentação agregada de soja e milho.
+conab,Safra de Grãos,Conab,safra,https://www.gov.br/conab/pt-br/atuacao/informacoes-agropecuarias/safras/safra-de-graos,MT GO MS PR SP MG PA RS,manual,CONTEXT_ONLY,,Acompanhamento oficial de safras.
+anec,ANEC,ANEC,exportação,https://anec.com.br/estatisticas/,MT GO MS PR SP MG PA RS,manual,CONTEXT_ONLY,,Consulta de exportações.
+rodolivia,Rodolívia,Rodolívia,transportadora,https://rodoliviatransportes.com.br/,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,Fretes próprios; investigar fornecimento voluntário.
+capture,Análise privada,Protótipo,entrada,,MT GO MS PR SP MG PA RS,manual,PRIVATE_ONLY,,Nenhuma coleta ou armazenamento.

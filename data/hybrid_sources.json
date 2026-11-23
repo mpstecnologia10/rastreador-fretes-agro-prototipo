@@ -1,0 +1,17 @@
+{
+  "fretebras": {"acquisition_mode":"FEDERATED_SEARCH","terms_checked_at":"2026-11-22","terms_notes":"Termos 1.11 e 5.11: somente navegação, sem extração ou republicação.","requires_login":true,"search_url_template":"https://www.fretebras.com.br/fretes","origin_pages":{"5107602":"https://www.fretebras.com.br/fretes/carga-de-rondonopolis-mt/com-valor"},"supports_origin_param":true},
+  "puxada": {"acquisition_mode":"FEDERATED_SEARCH","terms_checked_at":"2026-11-22","terms_notes":"Páginas públicas de região; a consulta local exige confirmar origem/destino no site. Sem permissão de ingestão.","requires_login":null,"search_url_template":"https://www.puxada.com.br/fretes","city_pages":{"5107602":"https://www.puxada.com.br/fretes/em/mt/rondonopolis"}},
+  "motz": {"acquisition_mode":"FEDERATED_SEARCH","terms_notes":"Abrir site oficial; continuar no aplicativo. Sem parâmetros verificados."},
+  "trizy": {"acquisition_mode":"FEDERATED_SEARCH","terms_notes":"Abrir site oficial; ofertas no aplicativo."},
+  "strada": {"acquisition_mode":"FEDERATED_SEARCH"},
+  "coamo": {"acquisition_mode":"FEDERATED_SEARCH"},
+  "vector": {"acquisition_mode":"RESTRICTED_SOURCE","requires_login":true},
+  "webfrete": {"acquisition_mode":"RESTRICTED_SOURCE","terms_notes":"Nenhuma permissão comprovada; sem coleta ou link parametrizado."},
+  "telegram": {"acquisition_mode":"RESTRICTED_SOURCE","terms_notes":"Sem leitura ou importação de grupos, canais ou contas. Captura privada é manual."},
+  "sifreca": {"acquisition_mode":"CONTEXT_SOURCE","terms_checked_at":"2026-11-22","terms_notes":"Indicadores de mercado por rota e produto. Sem licença de ingestão/republicação confirmada."},
+  "antaq": {"acquisition_mode":"CONTEXT_SOURCE","terms_checked_at":"2026-11-22","terms_notes":"Anuário 2025: movimentação portuária agregada, não oferta."},
+  "conab": {"acquisition_mode":"CONTEXT_SOURCE","terms_checked_at":"2026-11-22","terms_notes":"Monitoramento de safras, não oferta."},
+  "anec": {"acquisition_mode":"CONTEXT_SOURCE","terms_notes":"Indicadores de exportação para consulta, sem ingestão."},
+  "rodolivia": {"acquisition_mode":"PUBLISHER_INPUT","terms_notes":"Site público aponta para fretes próprios. Sem autorização de ingestão ou republicação."},
+  "capture": {"acquisition_mode":"USER_CAPTURE","can_ingest":false,"requires_login":false,"terms_notes":"Análise privada em memória; não integra o catálogo."}
+}

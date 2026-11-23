@@ -58,7 +58,9 @@ async function search(){const request=++state.request;state.query=null;const id=
 function showSources(s){
   for(const r of s.fontes){
     state.registry.set(r.id,r);
-    const box=text("article","","source-entry");box.append(text("strong",r.nome+" · "+r.classificacao),
+    const box=text("article","","source-entry");box.append(text("strong",r.nome+" · "+r.classificacao+" · "+r.acquisition_mode),
+      text("p","Ingestão: "+(r.can_ingest?"sim":"não")+" · Republicação: "+(r.can_republish?"sim":"não")+" · Login: "+(r.requires_login===null?"não verificado":r.requires_login?"necessário para alguns recursos":"não necessário")+" · Termos: "+(r.terms_checked_at||"sem data de revisão"),"subtle"),
+      text("p","Parâmetros verificados: "+[r.supports_origin_param&&"origem",r.supports_destination_param&&"destino",r.supports_vehicle_param&&"veículo"].filter(Boolean).join(", ").replace(/^$/,"nenhum")+" · "+(r.terms_notes||r.nota||"Sem nota adicional."),"subtle"),
       text("div","Automática: "+(r.coleta_automatica?"sim":"não")+" · "+r.status+" · "+r.encontradas+" encontrados / "+r.aproveitadas+" aproveitados"),
       text("div","Tentativa: "+(r.ultima_tentativa||"—")+" · Sucesso: "+(r.ultimo_sucesso||"—"),"subtle"),
       text("p",[r.nota,r.erro].filter(Boolean).join(" ")||"Feed registrado."));
@@ -66,6 +68,20 @@ function showSources(s){
     el("registry").append(box);
     if(r.classificacao==="LINK_ONLY"&&r.url)el("links").append(link(r.nome,r.url));
   }
+}
+function renderFederated(){
+  const origin=el("city").value;
+  const selected=el("city").selectedOptions[0]?.textContent;
+  const dest=el("destination").value.trim();
+  const config=el("config").value;
+  el("federated-context").textContent="Saída: "+selected+(dest?" · Destino: "+dest:"")+(config?" · Veículo: "+config:"")+
+    ". Destino, veículo e raio devem ser ajustados na plataforma. Nenhum anúncio externo é coletado.";
+  el("federated-links").replaceChildren(...[...state.registry.values()].filter(r=>r.acquisition_mode==="FEDERATED_SEARCH")
+    .map(r=>{
+      const exact=r.origin_pages?.[origin], region=r.city_pages?.[origin];
+      return link(r.nome+" · "+(exact?"origem selecionada":region?"página da cidade":"ajustar filtros na fonte"),
+        exact||region||r.search_url_template||r.url);
+    }));
 }
 const storage="fretes-agro:diario:1";
 function readJournal(){try{const v=JSON.parse(localStorage.getItem(storage)||"[]");return Array.isArray(v)?v:[]}catch{return []}}
@@ -88,7 +104,7 @@ async function start(){
   options("source",[...new Set(loads.cargas.flatMap(r=>r.fontes.map(f=>f.fonte_id)))].map(id=>[id,state.registry.get(id)?.nome||id]));
   options("age",["NOVA","RECENTE","ANTIGA","POSSIVELMENTE_EXPIRADA","EXPIRADA"]);
   el("search").addEventListener("submit",e=>{e.preventDefault();search()});
-  for(const id of ["radius","product","config","compat","confidence","source","age","priced","critical","destination"])el(id).addEventListener("input",()=>{if(state.query)render()});
-  el("city").addEventListener("change",search);await search();
+  for(const id of ["radius","product","config","compat","confidence","source","age","priced","critical","destination"])el(id).addEventListener("input",()=>{if(state.query)render();renderFederated()});
+  el("city").addEventListener("change",()=>{renderFederated();search()});renderFederated();await search();
 }
 start().catch(error);

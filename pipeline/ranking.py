@@ -53,7 +53,8 @@ def merge(rows, state, now):
         data={k:v for k,v in best.items() if not k.startswith("_")}
         for rid in records: reserve[rid]=gid
         seen[gid]={"first":history.get("first",now_s),"prices":old_prices[-40:],"last":now_s}
-        result.append({**data,"id":gid,"fontes":evidence,"fontes_distintas":independent,"confianca":level,
+        result.append({**data,"id":gid,"fontes":evidence,"evidencias":evidence,"fontes_distintas":independent,"confianca":level,
+                       "historico_precos":old_prices[-20:],
                        "evidencias_confianca":confidence,"selos":seals,"alertas":alerts,"historico_valores":old_prices[-20:],
                        "primeira_vez_vista":seen[gid]["first"],"ultima_vez_vista":now_s})
     return result
@@ -80,6 +81,7 @@ def opportunities(hub, loads, router):
         for dist in (50,100,150):
             back[str(dist)]=sum(1 for x in loads if x["id"]!=r["id"] and x["atualidade"] in ("NOVA","RECENTE")
                 and x["compatibilidade"]!="INCOMPATIVEL" and (v:=geography(d,x["origem"])) is not None and v<=dist)
+        parts["proxima_carga"]=min(6,back["100"])
         items.append({"carga_id":r["id"],"raio_geo_km":round(geo,1),"vazio":empty,"carregado":loaded,
                       "km_total":km_total,"metodo_total":"RODOVIARIO_ESTIMADO" if road else "APROXIMADO",
                       "valor_referencia_centavos":n,"rs_km_operacional_centavos":per_km,

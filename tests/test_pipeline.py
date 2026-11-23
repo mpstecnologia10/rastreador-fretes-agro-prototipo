@@ -168,6 +168,17 @@ class Export(unittest.TestCase):
             with self.assertRaises(ValueError):
                 AuthorizedFile(root/"inputs",p,NOW).parse(b'{"schema_version":2,"cargas":[]}')
 
+    def test_public_real_freight_checks_review_and_total_floor(self):
+        with tempfile.TemporaryDirectory() as path:
+            root=Path(path)
+            p,r=data()
+            inputs=root/"inputs"
+            for reviewed,floor,expected in ((False,300000,0),(True,600000,0),(True,525000,1)):
+                write(inputs/p["file"],{"schema_version":1,"cargas":[dict(r,piso_antt_centavos=floor)]})
+                write(inputs/"manifest.json",{"schema_version":1,"feeds":[dict(p,publish=True,public_antt_reviewed=reviewed,
+                    sha256=hashlib.sha256((inputs/p["file"]).read_bytes()).hexdigest())]})
+                self.assertEqual(run(self.args(root,public=True))["reais"],expected)
+
     def test_demo_contract_and_public_catalog(self):
         with tempfile.TemporaryDirectory() as path:
             a=self.args(Path(path),demo=True,public=True)

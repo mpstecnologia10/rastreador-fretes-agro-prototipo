@@ -1,5 +1,7 @@
 # Avaliação e piloto de sete dias
 
+Atualização híbrida: o teste técnico já pode começar com análise manual privada e links oficiais, sem esperar dois fornecedores. Execute a oferta de exemplo por texto e depois peça ao motorista uma mensagem de acesso legítimo; não anexe a mensagem a relatórios. Compare campos corrigidos, tempo até avaliação, adequação do conjunto, disponibilidade confirmada e abertura do link. Primeiro feed autorizado inicia o teste de ingestão; um segundo independente permite testar deduplicação real e cobertura conjunta. O piloto real e a viabilidade comercial permanecem pendentes. Os números do ensaio abaixo são da primeira avaliação, anterior à interface híbrida.
+
 A demonstração mede funcionamento técnico, não disponibilidade de fretes. Fixtures são sintéticas; a execução real tem zero linhas até ingestão autorizada. A cobertura do catálogo e os arquivos de hubs não equivalem a cargas reais nos estados. Sem duas fontes independentes utilizáveis e ofertas úteis no corredor, o resultado comercial é **inconclusivo**.
 
 Ensaio técnico: 24 itens mapeados (7 LINK_ONLY, 14 PUBLIC_DISCOVERY, 3 OFFICIAL_VALIDATION), 3.005 municípios IBGE nas oito UFs e 16 hubs pré-calculados. A demonstração tem 10 registros fictícios, 1 duplicidade, 9 oportunidades únicas no catálogo e 3 com preço ilustrativo. Execução em modo real: 0 ofertas, 0 feeds ativos. Checagem local passou em 18 testes Python e no Chromium em 390/1.280 px. Os testes de rota exercitaram cache, indisponibilidade e OSRM demonstrativo; o Pages não faz chamadas ao roteador.
