@@ -1,0 +1,9 @@
+# Avaliação e piloto de sete dias
+
+A demonstração mede funcionamento técnico, não disponibilidade de fretes. Fixtures são sintéticas; a execução real tem zero linhas até ingestão autorizada. A cobertura do catálogo e os arquivos de hubs não equivalem a cargas reais nos estados. Sem duas fontes independentes utilizáveis e ofertas úteis no corredor, o resultado comercial é **inconclusivo**.
+
+Ensaio técnico: 24 itens mapeados (7 LINK_ONLY, 14 PUBLIC_DISCOVERY, 3 OFFICIAL_VALIDATION), 3.005 municípios IBGE nas oito UFs e 16 hubs pré-calculados. A demonstração tem 10 registros fictícios, 1 duplicidade, 9 oportunidades únicas no catálogo e 3 com preço ilustrativo. Execução em modo real: 0 ofertas, 0 feeds ativos. Checagem local passou em 18 testes Python e no Chromium em 390/1.280 px. Os testes de rota exercitaram cache, indisponibilidade e OSRM demonstrativo; o Pages não faz chamadas ao roteador.
+
+1. Obter dois provedores independentes, os arquivos/direitos de uso e um responsável por confirmar disponibilidade. Validar pelo menos uma troca de arquivo, uma duplicata e uma expiração no corredor. Definir cadência de envio e dados que podem ser divulgados.
+2. Durante sete dias buscar em Primavera do Leste, Campo Verde e Rondonópolis nos raios 0/50/100/150 km. Salvar uma observação por busca; confirmar pelo menos as ofertas mais relevantes na fonte antes de tomar decisão. Exportar o diário local, sem nome, telefone pessoal, GPS nem dados da conta.
+3. Medir buscas totais/com resultado, ofertas recentes e compatíveis, links ativos, disponibilidade confirmada, tempo para opção útil, expiradas, duplicatas e falhas/latência por fonte. Separar resultados DEMO de REAL. A meta é disponibilidade verificável regular, links funcionais e resultados que um motorista consiga usar sem recálculo próprio. Não escalar por aparência ou números sintéticos.

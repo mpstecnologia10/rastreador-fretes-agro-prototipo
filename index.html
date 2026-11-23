@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Protótipo independente para buscar cargas agro próximas de onde o caminhão ficará vazio.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'">
+  <title>Rastreador de Fretes Agro</title>
+  <link rel="stylesheet" href="assets/style.css"><script type="module" src="assets/app.js"></script>
+</head>
+<body>
+  <header class="top"><div class="wrap masthead"><a class="brand" href="./"><span class="mark" aria-hidden="true">FA</span> Fretes Agro</a><a class="jump" href="#fontes">Status das fontes</a></div></header>
+  <main class="wrap">
+    <section class="hero"><p class="eyebrow" id="mode">PROTÓTIPO EXPERIMENTAL</p><h1>Onde você ficará vazio?</h1><p>Encontre opções de carga agro próximas do fim da sua viagem.</p>
+      <p class="notice" id="notice">Dados sujeitos a confirmação na fonte original.</p>
+      <form id="search" class="panel">
+        <div class="primary"><label>Município de saída<select id="city" required><option value="">Carregando…</option></select></label>
+        <label>Raio em linha reta<select id="radius"><option value="0">Mesma cidade</option><option value="50">Até 50 km</option><option value="100" selected>Até 100 km</option><option value="150">Até 150 km</option></select></label>
+        <button type="submit">Buscar fretes</button></div>
+        <details><summary>Filtros de busca</summary><div id="filters" class="filters">
+          <label>Destino<input id="destination" type="search" placeholder="Cidade ou UF"></label>
+          <label>Produto<select id="product"></select></label><label>Configuração<select id="config"></select></label>
+          <label>Compatibilidade<select id="compat"></select></label><label>Confiança<select id="confidence"></select></label>
+          <label>Fonte<select id="source"></select></label><label>Atualidade<select id="age"></select></label>
+          <label class="check"><input type="checkbox" id="priced"> Somente com preço</label>
+          <label class="check"><input type="checkbox" id="critical" checked> Ocultar incompatíveis e expiradas</label>
+        </div></details>
+      </form>
+    </section>
+    <section aria-labelledby="results-title"><div class="bar"><h2 id="results-title">Oportunidades</h2><p id="count" role="status"></p></div><p id="updated" class="subtle"></p><div id="results" class="results"></div></section>
+    <section class="panel reference-box" id="fontes"><h2>Status das fontes</h2><p id="catalog-meta" class="subtle"></p><details><summary>Ver catálogo e motivos</summary><div id="registry"></div></details><h3>Outras fontes para consultar</h3><div id="links" class="link-list"></div></section>
+    <section class="panel reference-box"><h2>Diário local do piloto</h2><p class="subtle">Sem cadastro, analytics ou dados pessoais. Só o navegador armazena as observações.</p>
+      <form id="log" class="filters"><label>Disponibilidade confirmada<select id="confirmed"><option value="nao_verificada">Não verificada</option><option value="sim">Sim</option><option value="nao">Não</option></select></label>
+      <label>Oferta original abriu?<select id="alive"><option value="nao_verificada">Não verificada</option><option value="sim">Sim</option><option value="nao">Não</option></select></label>
+      <label>Segundos até opção útil<input id="elapsed" type="number" min="0" max="86400" placeholder="Opcional"></label><button>Salvar observação</button></form>
+      <button type="button" class="secondary" id="export">Exportar diário (JSON)</button><span id="log-status" role="status"></span>
+    </section>
+  </main>
+  <footer class="wrap subtle"><p>Quando indicado, rotas estimadas com OSRM e dados © <a href="https://www.openstreetmap.org/copyright">colaboradores OpenStreetMap</a>. <a href="https://www.openstreetmap.org/fixthemap">Corrigir o mapa</a>.</p></footer>
+</body></html>

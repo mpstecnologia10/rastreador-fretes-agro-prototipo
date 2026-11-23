@@ -1,0 +1,1 @@
+{"schema_version":1,"feeds":[{"id":"feed-exemplo","company":"Empresa autorizadora","publisher_url":"https://empresa.example","file":"cargas.csv","adapter":"authorized_csv","permission_ref":"referencia-interna-assinada","permission_until":"2027-01-01T00:00:00-04:00","sha256":"HASH_SHA256_DO_ARQUIVO","publish":false,"publish_business_contact":false}]}

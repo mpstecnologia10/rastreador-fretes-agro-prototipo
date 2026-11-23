@@ -1,0 +1,9 @@
+# Como fornecer cargas autorizadas
+
+Use [o CSV modelo](templates/cargas.csv) em UTF-8, ou um JSON com `{"schema_version":1,"cargas":[...]}`. São dados próprios da empresa, não uma exportação de terceiros sem permissão. Use o código IBGE ou `Cidade/UF`, identificador estável, produto e URL HTTPS da oferta no domínio indicado. Informe datas ISO 8601 com fuso (por exemplo, `2026-11-22T08:30:00-04:00`). Informe peso em toneladas e tipo `por_tonelada` ou `fechado`; não informe valor se a unidade não for conhecida. A referência comum do embarcador é opcional e serve para deduplicação entre feeds.
+
+1. Guarde o arquivo e o manifesto privado em `data/manual_authorized/` (ignorado pelo Git). Confira com o responsável da empresa o escopo, validade e campos permitidos; guarde a evidência fora do repo. Use [o manifesto modelo](templates/manifest.example.json). O SHA-256 deve corresponder ao arquivo validado (`sha256sum cargas.csv`).
+2. Use uma referência privada de autorização, titular, domínio e prazo. Se a oferta estiver em outro domínio expressamente autorizado, o operador pode incluir `offer_hosts`. Não inclua CPF, placa, dados pessoais, segredo ou links privados. `publish_business_contact` só pode ser verdadeiro para um telefone de atendimento empresarial que o titular autorizou. Não use número pessoal.
+3. Execute `python3 -m pipeline.build --refresh-ibge --output .cache/site-real` e abra a prévia local. Para gerar uma exportação publicável, é necessário tanto `--public` quanto `publish: true` no manifesto validado. O workflow público desta versão não publica feeds reais.
+
+Use `valor_50t_permitido` apenas se a tarifa puder ser aplicada a 50 t. A confirmação explícita de conjunto exige `conjunto_25m_50t_confirmado` na linha e `allow_equipment_confirmation: true` no manifesto validado. Trata-se da declaração do fornecedor, não de validação da rota.

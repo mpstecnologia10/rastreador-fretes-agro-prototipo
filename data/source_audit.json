@@ -1,0 +1,170 @@
+{
+  "1500": {
+    "robots_url": "https://www.1500transportes.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "fretebras": {
+    "robots_url": "https://www.fretebras.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "HTTP 403",
+    "feed_publico": null,
+    "termos_evidencia": "https://www.fretebras.com.br/termos-de-uso"
+  },
+  "puxada": {
+    "robots_url": "https://www.puxada.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "motz": {
+    "robots_url": "https://motz.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "vector": {
+    "robots_url": "https://login.vectorapp.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "RESPOSTA NÃO É ROBOTS",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "strada": {
+    "robots_url": "https://strada.log.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "trizy": {
+    "robots_url": "https://trizy.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "HTTP 404",
+    "feed_publico": null,
+    "termos_evidencia": "https://cdn.trizy.com.br/v2.0/termos_de_uso.pdf"
+  },
+  "g10": {
+    "robots_url": "https://www.g10.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "HTTP 404",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "bunge": {
+    "robots_url": "https://www.bunge.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "HTTP 404",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "adm": {
+    "robots_url": "https://www.adm.com/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO RESTRITO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "cargill": {
+    "robots_url": "https://www.cargill.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "HTTP 403",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "ldc": {
+    "robots_url": "https://www.ldc.com/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "coamo": {
+    "robots_url": "https://www.coamo.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "cocamar": {
+    "robots_url": "https://www.cocamar.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "comigo": {
+    "robots_url": "https://www.comigo.coop.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "REDIRECIONADO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "cotriba": {
+    "robots_url": "https://www.cotriba.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "amaggi": {
+    "robots_url": "https://www.amaggi.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "fiagril": {
+    "robots_url": "https://www.fiagril.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:33+00:00",
+    "robots": "REDIRECIONADO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "cs": {
+    "robots_url": "https://cstransportesgraos.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "hidrovias": {
+    "robots_url": "https://www.hbsa.com.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "HTTP 404",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "rumo": {
+    "robots_url": "https://rumolog.com/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "REDIRECIONADO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "ibge": {
+    "robots_url": "https://servicodados.ibge.gov.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "INDISPONÍVEL",
+    "feed_publico": "API documentada de municípios; não é fonte de fretes",
+    "termos_evidencia": null
+  },
+  "antt": {
+    "robots_url": "https://consultapublica.antt.gov.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "HTTP 404",
+    "feed_publico": null,
+    "termos_evidencia": null
+  },
+  "receita": {
+    "robots_url": "https://www.gov.br/robots.txt",
+    "checado_em": "2026-11-23T00:51:34+00:00",
+    "robots": "CAMINHO PERMITIDO",
+    "feed_publico": null,
+    "termos_evidencia": null
+  }
+}

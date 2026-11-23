@@ -1,0 +1,25 @@
+id,nome,empresa,categoria,url,estados,tipo,classificacao,termos,nota
+fretebras,Fretebras,Fretebras,plataforma,https://www.fretebras.com.br/,MT GO MS PR SP MG PA RS,app,LINK_ONLY,https://www.fretebras.com.br/termos-de-uso,Cláusulas 1.11 e 5.11 restringem extração e reaproveitamento; sem autorização.
+puxada,Puxada,Puxada,plataforma,https://www.puxada.com.br/,MT GO MS PR SP MG PA RS,app,LINK_ONLY,,Planos e contatos no aplicativo; nenhum feed autorizado confirmado.
+motz,Motz,Motz,transportadora,https://motz.com.br/,MT GO MS PR SP MG PA RS,app,LINK_ONLY,,Site oficial aponta para App Motz; nenhum feed autorizado confirmado.
+vector,Vector,Vector,plataforma,https://login.vectorapp.com.br/login,MT GO MS PR SP MG PA RS,login,LINK_ONLY,,Portal com login e link legal; não usar serviços autenticados.
+strada,Strada,Strada,plataforma,https://strada.log.br/personas/motoristas/,MT GO MS PR SP MG PA RS,app,LINK_ONLY,,Página oficial direciona a ofertas no aplicativo.
+trizy,Trizy,Trizy,plataforma,https://trizy.com.br/,MT GO MS PR SP MG PA RS,app,LINK_ONLY,https://cdn.trizy.com.br/v2.0/termos_de_uso.pdf,Termos vinculam ofertas ao aplicativo; sem permissão de republicação verificada.
+g10,G10 Transportes,G10,transportadora,https://www.g10.com.br/,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,Candidato a parceria; canal de cargas não verificado.
+bunge,Bunge,Bunge,embarcador,https://www.bunge.com.br/agricultura/transporte-e-logistica,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,A própria Bunge documenta a origem da Vector; canal atual deve ser confirmado.
+adm,ADM Brasil,ADM,embarcador,https://www.adm.com/pt-br/,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,Página institucional; nenhum canal de oferta autorizado confirmado.
+cargill,Cargill Brasil,Cargill,embarcador,https://www.cargill.com.br/pt_BR/home,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,Página institucional; nenhum canal de oferta autorizado confirmado.
+ldc,LDC Brasil,Louis Dreyfus Company,embarcador,https://www.ldc.com/br/pt/,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,Contato comercial candidato; nenhum feed de oferta autorizado.
+coamo,Coamo Fretes,Coamo,cooperativa,https://www.coamo.com.br/,PR MS,app,LINK_ONLY,,Aplicativo Coamo Fretes divulgado em canal oficial da cooperativa.
+cocamar,Cocamar,Cocamar,cooperativa,https://www.cocamar.com.br/,PR SP MS,site,PUBLIC_DISCOVERY,,Prospectar cooperativa; associação com plataforma não confirmada.
+comigo,COMIGO,COMIGO,cooperativa,https://www.comigo.coop.br/,GO,site,PUBLIC_DISCOVERY,,Rio Verde é corredor prioritário; nenhum feed confirmado.
+cotriba,Cotribá,Cotribá,cooperativa,https://www.cotriba.com.br/,RS,site,PUBLIC_DISCOVERY,,Cooperativa indicada pela Fecoagro RS; ofertas não verificadas.
+amaggi,Amaggi,Amaggi,embarcador,https://www.amaggi.com.br/,MT PA,site,PUBLIC_DISCOVERY,,Prospectar áreas de logística e transportes.
+fiagril,Fiagril,Fiagril,embarcador,https://www.fiagril.com.br/,MT,site,PUBLIC_DISCOVERY,,Prospectar feed de transporte no corredor.
+cs,CS Transportes,CS Transportes,transportadora,https://cstransportesgraos.com.br/,GO MG MT,site,PUBLIC_DISCOVERY,,Site identifica atuação no transporte de grãos; sem feed público.
+1500,1500 Transportes,1500 Transportes,transportadora,https://www.1500transportes.com.br/ondeestamos,PR SP MG MS PA RS,site,PUBLIC_DISCOVERY,,Unidades nos corredores; procurar canal autorizado com a empresa.
+hidrovias,Hidrovias do Brasil,Hidrovias do Brasil,terminal,https://www.hbsa.com.br/,PA MT,site,PUBLIC_DISCOVERY,,Candidato por presença logística no corredor Norte; não é catálogo de fretes.
+rumo,Rumo,Rumo,operador,https://rumolog.com/,MT GO MS PR SP RS,site,PUBLIC_DISCOVERY,,Operador ferroviário; prospectar interface rodoviária sem contar como fonte de ofertas.
+ibge,IBGE Localidades,IBGE,validação,https://servicodados.ibge.gov.br/api/v1/localidades/municipios,MT GO MS PR SP MG PA RS,api,OFFICIAL_VALIDATION,,API oficial de municípios; não contém ofertas de frete.
+antt,Consulta RNTRC,ANTT,validação,https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx,MT GO MS PR SP MG PA RS,manual,OFFICIAL_VALIDATION,,Consulta humana; nenhuma automação autorizada no piloto.
+receita,Cadastro CNPJ,Receita Federal,validação,https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/cnpj/cadastro-nacional-de-pessoas-juridicas-cnpj,MT GO MS PR SP MG PA RS,manual,OFFICIAL_VALIDATION,,Comprovante cadastral manual; nenhum selo ativo sem consulta.
