@@ -28,13 +28,14 @@ def extract(lines,evidence=URL):
     for row in rows:
         r={key(k).replace(" ","_"):str(v or "").strip() for k,v in row.items()}
         category=r.get("categoria") or r.get("categoria_transportador") or r.get("tipo_transportador")
-        uf=r.get("uf") or r.get("sg_uf"); cnpj=r.get("cnpj") or r.get("cpf_cnpj")
+        uf=r.get("uf") or r.get("sg_uf"); cnpj=r.get("cnpj") or r.get("cpf_cnpj") or r.get("cpfcnpjtransportador")
+        category=(category or "").upper().split(" ")[0]
         if category not in ("ETC","CTC") or uf not in STATES or not cnpj_ok(cnpj): continue
-        if cnpj in results or counts[uf]>=100: continue
+        if cnpj in results or counts[uf]>=2500: continue
         results[cnpj]={"empresa":r.get("razao_social") or r.get("nome_transportador"),"categoria":category,
-                       "uf":uf,"cnpj":cnpj,"municipio":r.get("municipio"),"evidencia":evidence}
+                       "uf":uf,"cnpj":cnpj,"municipio":r.get("municipio"),"situacao":r.get("situacao_rntrc"),"evidencia":evidence}
         counts[uf]+=1
-        if len(results)>=800:break
+        if len(results)>=20000:break
     return list(results.values())
 
 if __name__=="__main__":
@@ -43,7 +44,12 @@ if __name__=="__main__":
     try:
         with urlopen(source,timeout=12) as r:
             if urlsplit(r.geturl()).hostname!="dados.antt.gov.br":raise ValueError()
-            rows=extract(io.TextIOWrapper(r,encoding="latin-1"),source)
+            initial=r.readline(4096)
+            print("Cabeçalho RNTRC:",initial.decode("utf-8-sig",errors="replace")[:300] if b";" in initial and b"rntrc" in initial.lower() else "formato não confirmado")
+            import itertools
+            try: header=initial.decode("utf-8-sig")
+            except UnicodeDecodeError: header=initial.decode("latin-1")
+            rows=extract(itertools.chain([header],io.TextIOWrapper(r,encoding="latin-1")),source)
         status="OK" if rows else "NO_MATCH_OR_SCHEMA_UNVERIFIED"
     except (OSError,ValueError,csv.Error): rows=[];status="UNAVAILABLE"
     write(ROOT/".cache/company-discovery.json",{"source":source,"status":status,"companies":rows})
