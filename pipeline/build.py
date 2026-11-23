@@ -173,6 +173,9 @@ def run(args):
         write(data/"oportunidades"/(hub["ibge"]+".json"),{**shared,"municipio":hub,"oportunidades":opportunities(hub,loads,routing)})
     write(data/"cargas.json",{**shared,"cargas":loads})
     write(data/"sources_registry.json",{**shared,"fontes":report})
+    geographic=read(ROOT/"data/geo_entities.json",{})
+    for name in ("geo_entities.json","company_platform_map.json","route_context.json"):
+        if (ROOT/"data"/name).is_file(): shutil.copy2(ROOT/"data"/name,data/name)
     write(data/"municipios.json",{"hubs":read(ROOT/"data/hubs.json"),
                                 "official":[{"id":c["ibge"],"nome":c["nome"]} for c in cities.ids.values()]})
     write(data/"meta.json",{**shared,"atualizado_em":iso(now),"duracao_s":round(monotonic()-then,3),
@@ -187,6 +190,7 @@ def run(args):
             "context_sources":"CONTEXT_SOURCE","restricted_sources":"RESTRICTED_SOURCE"}.items()},
         "user_captures_processed":0,"parser_success_rate":None,"parser_partial_rate":None,"parser_failure_rate":None,
         "loads_with_market_reference":0,"loads_with_antt_reference":0,
+        **geographic.get("metrics",{}),
         "municipios_catalogados":len(cities.ids),"hubs":hubs,"escopo_ufs":list(STATES.values())})
     write(state_path,state)
     shutil.copy2(ROOT/"index.html",args.output/"index.html")

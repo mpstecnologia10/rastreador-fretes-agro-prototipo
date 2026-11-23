@@ -1,0 +1,1 @@
+{"schema_version":1,"entries":[],"fields":["traffic_status","incident_count","closure","estimated_delay","source","updated_at"],"sources":{"waze":{"mode":"TRAFFIC_CONTEXT","feed":"PARTNER_ONLY","active":false},"google_maps":{"mode":"GEO_FEDERATED_DISCOVERY","active":false},"google_places":{"mode":"OPTIONAL_FUTURE_SOURCE","active":false}}}

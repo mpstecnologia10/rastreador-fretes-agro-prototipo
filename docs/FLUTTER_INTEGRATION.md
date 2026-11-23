@@ -1,5 +1,7 @@
 # Integração futura — Autônomo → Buscar Fretes
 
+Futuro fluxo **selecionar carga → Navegar**: abrir Google Maps ou Waze por URL oficial, usando coordenadas autorizadas; não usar o centro de um POI como entrada do terminal sem confirmação. Os links não validam vias para caminhões. Nenhuma integração Flutter foi implementada.
+
 Futuro fluxo Autônomo → Buscar Fretes / Analisar oferta. O Android poderá aceitar `ACTION_SEND` com `text/plain`, encaminhar para análise privada, exigir revisão e oferecer localização ou destino da viagem para a busca, mediante escolha. Capturas favoritas só poderão ser salvas localmente mediante ação explícita. Não transmitir texto privado ao catálogo. Compartilhar contrato e fixtures do motor Python, sem reescrever regras de preço e peso na UI.
 
 A futura tela recebe código IBGE da cidade onde o caminhão ficará vazio, carrega `meta.json`, `cargas.json` e `oportunidades/{ibge}.json` e confere a versão e o snapshot em comum. Usa a ordem, distâncias, selos e métricas já calculados em Python; aplica filtros de apresentação e abre a oferta original. Tratar null, timeouts, cidade sem hub e snapshot expirado; cache com expiração e identidade de snapshot. O próximo passo pode substituir a leitura estática por API sem alterar o modelo de oportunidade.
