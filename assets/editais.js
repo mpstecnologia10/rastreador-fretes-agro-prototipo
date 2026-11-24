@@ -12,7 +12,8 @@ try {
       const p=document.createElement("p"), a=document.createElement("a");
       a.href=r.fonte; a.textContent="Consultar edital no PNCP";
       p.append(r.municipio_comprador+"/"+r.uf+" — "+r.objeto+" · Prazo: "+
-        new Intl.DateTimeFormat("pt-BR",{dateStyle:"short",timeStyle:"short",timeZone:"America/Sao_Paulo"}).format(new Date(r.expires_at))+" (Brasília). ",a);
+        new Intl.DateTimeFormat("pt-BR",{dateStyle:"short",timeStyle:"short",timeZone:"America/Sao_Paulo"}).format(new Date(r.expires_at))+" (Brasília). ",
+        [r.origem,r.destino,r.quantidade,r.valor_estimado!=null?"Total estimado do edital: "+new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(r.valor_estimado):null].filter(Boolean).join(" · ")+" ",a);
       box.append(p);
     }
     if(valid.length && snapshot.errors?.length)box.append("Consulta parcial. Somente editais confirmados nas últimas 24 horas.");
@@ -20,3 +21,12 @@ try {
   }
   render(); setInterval(render,60000);
 }catch{box.textContent="Consulta de editais indisponível.";}
+
+try{
+  const rows=await (await fetch("data/conab.json")).json();
+  if(rows.length){const details=document.createElement("details"), title=document.createElement("summary");
+    title.textContent="Conab — lotes documentais (inclui encerrados)"; details.append(title);
+    for(const r of rows){const p=document.createElement("p"),a=document.createElement("a");
+      a.href=r.id;a.textContent="Aviso original";p.append([r.situacao,r.origem+" → "+r.destino,r.produto,r.quantidade_kg!=null?r.quantidade_kg.toLocaleString("pt-BR")+" kg":null].filter(Boolean).join(" · ")+" · ",a);details.append(p);}
+    box.after(details);}
+}catch{/* Falha documental não interfere nos editais do PNCP. */}

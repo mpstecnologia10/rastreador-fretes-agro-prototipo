@@ -168,6 +168,7 @@ def run(args):
     snapshot=digest(("demo" if args.demo else "real")+now.isoformat()+json.dumps([loads,report],sort_keys=True))
     shared={"schema_version":SCHEMA,"snapshot_id":snapshot,"modo":"DEMO" if args.demo else "REAL"}
     data=args.output/"data"
+    write(data/"conab.json",read(ROOT/".cache/conab-public.json",[]) if args.public else [])
     tenders=read(ROOT/".cache/pncp-opportunities.json",{"editais":[],"errors":["sem consulta"]})
     write(data/"editais.json",tenders if args.public else {"editais":[]})
     routing=Router(now,state.setdefault("routes",{}) if args.osrm else {},

@@ -79,6 +79,11 @@ function renderFederated(){
   el("federated-links").replaceChildren(...[...state.registry.values()].filter(r=>r.acquisition_mode==="FEDERATED_SEARCH")
     .map(r=>{
       const exact=r.origin_pages?.[origin], region=r.city_pages?.[origin];
+      const parts=(selected||"").match(/^(.+)\/([A-Z]{2})$/);
+      if(parts && ["fretebras","puxada"].includes(r.id)){
+        const slug=fold(parts[1]).trim().replace(/[^a-z0-9]+/g,"-"), uf=parts[2].toLowerCase();
+        return link("Buscar mais cargas na "+r.nome,r.id==="fretebras"?"https://www.fretebras.com.br/fretes/carga-de-"+slug+"-"+uf+"/":"https://www.puxada.com.br/fretes/em/"+uf+"/"+slug);
+      }
       return link(r.nome+" · "+(exact?"origem selecionada":region?"página da cidade":"ajustar filtros na fonte"),
         exact||region||r.search_url_template||r.url);
     }));

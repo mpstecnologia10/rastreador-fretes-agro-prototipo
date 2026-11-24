@@ -20,17 +20,22 @@ def local_time(s):
 
 def opportunity(r, now, first):
     title=key(r["objetoCompra"])
-    if not re.search(r"(?:servicos? de |empresa para (?:efetuar |realizar )?)transporte (?:rodoviario )?de (?:pedras|cascalho|calcario|graos|milho|soja|fertilizantes|cargas)\b",title):return
+    if not re.search(r"\b(?:transporte (?:rodoviario )?de (?:pedras|cascalho|calcario|graos|milho|soja|fertilizantes|cargas)|(?:contratacao|servicos?) de fretes?|logistica de (?:transporte|escoamento|distribuicao) de (?:graos|milho|soja|cargas))\b",title):return
     if r["situacaoCompraId"]!=1 or not local_time(r["dataAberturaProposta"])<=now<local_time(r["dataEncerramentoProposta"]):return
     ident=r["numeroControlePNCP"]
     m=re.fullmatch(r"(\d{14})-1-(\d+)/(\d{4})",ident)
     if not m:return
     unit=r["unidadeOrgao"]
     return dict(id=ident,tipo="CONTRATACAO_FUTURA",municipio_comprador=unit["municipioNome"],uf=unit["ufSigla"],
-        objeto=r["objetoCompra"].strip(),origem=None,destino=None,preco_frete=None,
+        objeto=r["objetoCompra"].strip(),origem=field(r["objetoCompra"],"origem"),destino=field(r["objetoCompra"],"destino"),
+        quantidade=field(r["objetoCompra"],"quantidade"),valor_estimado=r.get("valorTotalEstimado"),preco_frete=None,
         published_at=iso(local_time(r["dataPublicacaoPncp"])),first_seen_at=first.get(ident,iso(now)),
         last_seen_at=iso(now),collected_at=iso(now),expires_at=iso(local_time(r["dataEncerramentoProposta"])),
         fonte=f"https://pncp.gov.br/app/editais/{m[1]}/{m[3]}/{int(m[2])}")
+
+def field(text,label):
+    m=re.search(r"\b"+label+r"\s*:\s*([^;\n|]{1,90}?)(?=\s+(?:origem|destino|quantidade)\s*:|[;\n|]|$)",text,re.I)
+    return m[1].strip() if m else None
 
 def collect(now):
     path=ROOT/".cache/pncp-opportunities.json"

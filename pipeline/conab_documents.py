@@ -21,6 +21,7 @@ def parse_layout(text):
     h,m,day=dates.groups()
     deadline=datetime.strptime(day+" "+h+":"+m,"%d/%m/%Y %H:%M").replace(tzinfo=ZoneInfo("America/Sao_Paulo"))
     rows=[]
+    volumes=dict(re.findall(r"^\s*(\d+)\s+\d{2}\.\d{4}\.\d{4}-\d[^\n]+?\s+([\d.]+)\s+\d+\s*$",text,re.M))
     for line in text.split("ENDEREÇOS – ANEXO II",1)[-1].split("ANEXO III",1)[0].splitlines():
         # Split on column gaps, not on multiword municipality names.
         cep=r"\d{2}\.?\d{3}[.-]?\d{3}"
@@ -28,6 +29,7 @@ def parse_layout(text):
         if not route:continue
         lot,o,uf,d,duf=route.groups()
         rows.append({"lote":lot,"origem":o.strip()+"/"+uf,"destino":d.strip()+"/"+duf,"produto":"Milho em grãos",
+                     "quantidade_kg":int(volumes[lot].replace(".","")) if lot in volumes else None,
                      "valor_por_t":prices.get(lot),"configuracao":None,"deadline":iso(deadline)})
     return rows
 
