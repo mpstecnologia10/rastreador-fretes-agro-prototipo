@@ -168,6 +168,10 @@ def run(args):
     snapshot=digest(("demo" if args.demo else "real")+now.isoformat()+json.dumps([loads,report],sort_keys=True))
     shared={"schema_version":SCHEMA,"snapshot_id":snapshot,"modo":"DEMO" if args.demo else "REAL"}
     data=args.output/"data"
+    from .company_radar import build_radar
+    write(data/"company_radar.json",build_radar())
+    for name in ("operations_directory","fuel","terminal_traffic"):
+        write(data/(name+".json"),read(ROOT/"data"/(name+".json")))
     write(data/"corredores_logisticos.json",read(ROOT/"data/corredores_logisticos.json"))
     archive=read(ROOT/"data/conab_encerrados.json",[])
     latest=read(ROOT/".cache/conab-public.json",[])

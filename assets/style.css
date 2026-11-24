@@ -9,3 +9,6 @@ textarea{width:100%;resize:vertical;padding:.75rem;border:1px solid #8fa89b;bord
 textarea:focus-visible{outline:3px solid #385eb4;outline-offset:3px}
 #capture-status{color:var(--muted)}#capture-review details,#capture-result,#analisar .link-list{margin-top:1rem}
 #capture-fields small{font-size:.875rem}#capture-fields{align-items:start;margin-bottom:1rem}
+.fuel-band{margin-top:1rem;padding:1.25rem;border-radius:.9rem;background:#deeedc;border-left:.4rem solid #356540}
+.fuel-band strong{font-size:1.15rem}.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.8rem;margin:1rem 0}
+.ops-card{background:#f5f8f4;border:1px solid var(--line);border-radius:.65rem;padding:.85rem;overflow-wrap:anywhere}.ops-card p{margin:.45rem 0}.contact-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.7rem}.contact-actions a{padding:.4rem .65rem;border:1px solid var(--line);border-radius:.45rem;background:#fff}.contact-actions small{display:block}#truck-profile{max-width:25rem}

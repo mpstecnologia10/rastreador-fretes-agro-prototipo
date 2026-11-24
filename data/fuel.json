@@ -1,0 +1,53 @@
+{
+  "fim": "2026-11-21",
+  "fonte": "ANP · Levantamento de Preços de Combustíveis",
+  "inicio": "2026-11-15",
+  "municipios": {
+    "3170206": {
+      "media": 7.02,
+      "minimo": 6.79,
+      "postos": 10
+    },
+    "3548500": {
+      "media": 7.57,
+      "minimo": 6.79,
+      "postos": 8
+    },
+    "4118204": {
+      "media": 7.46,
+      "minimo": 6.99,
+      "postos": 6
+    },
+    "5003702": {
+      "media": 7.41,
+      "minimo": 7.29,
+      "postos": 10
+    },
+    "5103403": {
+      "media": 7.28,
+      "minimo": 6.59,
+      "postos": 10
+    },
+    "5107602": {
+      "media": 7.41,
+      "minimo": 6.99,
+      "postos": 13
+    },
+    "5107909": {
+      "media": 7.49,
+      "minimo": 6.99,
+      "postos": 5
+    },
+    "5107925": {
+      "media": 7.75,
+      "minimo": 7.29,
+      "postos": 5
+    },
+    "5218805": {
+      "media": 7.43,
+      "minimo": 7.19,
+      "postos": 6
+    }
+  },
+  "url": "https://www.gov.br/anp/pt-br/assuntos/precos-e-defesa-da-concorrencia/precos/arquivos-lpc/2026/resumo_semanal_lpc_2026_11_15_2026-11-21.xlsx"
+}

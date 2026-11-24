@@ -18,15 +18,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install requests beautifulsoup4 pytest && python -m pytest tests -q
+      - run: python -m pip install requests beautifulsoup4 'openpyxl>=3.1,<4' pytest && python -m pytest tests -q
       - uses: actions/cache@v4
         with:
           path: .cache/pncp-opportunities.json
           key: pncp-seen-${{ github.run_id }}
           restore-keys: pncp-seen-
+      - name: Atualizar situação viária dos terminais
+        env:
+          WAZE_AUTHORIZED_FEED_URL: ${{ secrets.WAZE_AUTHORIZED_FEED_URL }}
+          WAZE_AGGREGATE_PUBLICATION_ALLOWED: ${{ vars.WAZE_AGGREGATE_PUBLICATION_ALLOWED }}
+        run: python -m pipeline.traffic
       - name: update-freights
         run: |
           python -m pipeline.acquisition
+          python -m pipeline.fuel || echo "::warning::ANP indisponível; preservada a pesquisa datada do repositório"
           python -m pipeline.pncp
           python -m pipeline.adapters.conab || echo "::warning::Aviso Conab indisponível"
           if [ "${{ github.event_name }}" != "push" ]; then python -m pipeline.build --vitrines; fi

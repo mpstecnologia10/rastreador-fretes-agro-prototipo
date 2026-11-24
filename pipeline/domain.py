@@ -153,6 +153,7 @@ def normalize(r,p,now,cities):
             "valor_50t_centavos":cents(value*50) if normal else None,"normalizacao_permitida":normal,
             "empresa":company,"cnpj":fiscal,"rntrc":{"situacao":"CONSULTA_MANUAL","url":"https://consultapublica.antt.gov.br/Site/ConsultaRNTRC.aspx"},
             "contato_empresarial":phone(r.get("contato_empresarial")) if p.get("publish_business_contact") is True else None,
+            "whatsapp_empresarial":phone(r.get("whatsapp_empresarial")) if p.get("publish_business_contact") is True else None,
             "publicado_em":iso(posted),"validade":valid_until,"atualidade":temporal(posted,expiry,now),
             "compatibilidade":comp,"motivos_compatibilidade":reasons,"sintetico":bool(p.get("synthetic")),
             "fonte":evidence,"_identity":raw_cnpj if fiscal["digitos_validos"] else key(company),

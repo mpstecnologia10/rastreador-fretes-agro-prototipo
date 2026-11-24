@@ -1,0 +1,45 @@
+{
+  "verificado_em": "2026-11-24",
+  "entries": [
+    {
+      "nome": "Puxada", "categoria": "Plataforma", "url": "https://www.puxada.com.br/fretes",
+      "custo": "Gratuito com limites", "nota": "O plano básico limita contatos. Há planos Pro opcionais.",
+      "evidencia": "https://www.puxada.com.br/planos-e-precos"
+    },
+    {
+      "nome": "TruckPad", "categoria": "Aplicativo", "url": "https://sites.google.com/truckpad.com.br/central-de-ajuda/sou-motorista",
+      "custo": "Consultar condições", "nota": "Guia do motorista para baixar o aplicativo, cadastrar o veículo e encontrar cargas.",
+      "evidencia": "https://sites.google.com/truckpad.com.br/central-de-ajuda/sou-motorista"
+    },
+    {
+      "nome": "Fretebras", "categoria": "Plataforma", "url": "https://www.fretebras.com.br/fretes",
+      "custo": "Gratuito com opcionais", "nota": "Há serviços pagos, como Motoristas VIP. Consulte os limites antes de assinar.",
+      "evidencia": "https://fretebras-caminhoneiro.zendesk.com/hc/pt-br/articles/10272348597531-Preciso-pagar-para-usar-a-Fretebras"
+    },
+    {
+      "nome": "Vector", "categoria": "Aplicativo", "url": "https://login.vectorapp.com.br/login",
+      "custo": "Acesso gratuito", "nota": "Cadastro e acesso gratuitos; funcionalidades adicionais podem ser cobradas.",
+      "evidencia": "https://www.vector-unitech.com/assets/docs/TermosDeUsoVectorTP1114.pdf"
+    },
+    {
+      "nome": "AstranCoop", "categoria": "Cooperativa", "url": "https://astrancoop.com.br/",
+      "custo": "Consultar condições", "nota": "Consulte como funciona a adesão à cooperativa e o acesso às oportunidades.",
+      "evidencia": "https://astrancoop.com.br/"
+    },
+    {
+      "nome": "Coamo Fretes", "categoria": "Cooperativa", "url": "https://fretes.coamo.com.br/",
+      "custo": "Consultar condições", "nota": "Portal da cooperativa. Pode ser necessário cadastro ou validação do veículo.",
+      "evidencia": "https://fretes.coamo.com.br/solicitacao"
+    },
+    {
+      "nome": "Botuverá", "categoria": "Agenciamento", "url": "https://botuvera.com/agenciamento-de-cargas/",
+      "custo": "Consulta pública", "nota": "Página de agenciamento com assistente de fretes e unidades por município.",
+      "evidencia": "https://botuvera.com/agenciamento-de-cargas/"
+    },
+    {
+      "nome": "RDM Transportes", "categoria": "Transportadora", "url": "https://rdmtransportes.com.br/",
+      "custo": "Consulta pública", "nota": "Acesse o contato da transportadora ou siga o atalho para os fretes disponíveis.",
+      "evidencia": "https://rdmtransportes.com.br/"
+    }
+  ]
+}

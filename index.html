@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Protótipo independente para buscar cargas agro próximas de onde o caminhão ficará vazio.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; base-uri 'none'; object-src 'none'; form-action 'none'">
-  <title>Rastreador de Fretes Agro</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; frame-src https://embed.waze.com; base-uri 'none'; object-src 'none'; form-action 'none'">
+  <title>Central do Motorista | Fretes Agro</title>
   <link rel="stylesheet" href="assets/style.css"><script type="module" src="assets/app.js"></script>
   <script type="module" src="assets/capture.js"></script>
   <script type="module" src="assets/editais.js"></script>
+  <script type="module" src="assets/traffic.js"></script>
 </head>
 <body>
   <header class="top"><div class="wrap masthead"><a class="brand" href="./"><span class="mark" aria-hidden="true">FA</span> Fretes Agro</a><a class="jump" href="#fontes">Status das fontes</a></div></header>
   <main class="wrap">
-    <section class="hero"><p class="eyebrow" id="mode">PROTÓTIPO EXPERIMENTAL</p><h1>Onde você ficará vazio?</h1><p>Encontre opções de carga agro próximas do fim da sua viagem.</p>
-      <nav class="task-nav" aria-label="Escolher tarefa"><a href="#search">Buscar oportunidades</a><a href="#analisar">Analisar uma oferta</a></nav>
+    <section class="hero"><p class="eyebrow" id="mode">FRETES AGRO · PLANEJAMENTO DE VIAGEM</p><h1>Central do motorista</h1><p>Escolha onde seu caminhão ficará vazio para consultar diesel, contatos e opções de retorno.</p>
+      <nav class="task-nav" aria-label="Escolher tarefa"><a href="#search">Buscar oportunidades</a><a href="#terminais">Acessos aos terminais</a><a href="#regional">Contatos da região</a><a href="#analisar">Analisar uma oferta</a></nav>
       <p class="notice" id="notice">Dados sujeitos a confirmação na fonte original.</p>
       <form id="search" class="panel">
         <div class="primary"><label>Município de saída<select id="city" required><option value="">Carregando…</option></select></label>
@@ -28,11 +29,16 @@
           <label class="check"><input type="checkbox" id="critical" checked> Ocultar incompatíveis e expiradas</label>
         </div></details>
       </form>
+      <section class="fuel-band" aria-labelledby="fuel-title"><p class="eyebrow">CUSTO DA VIAGEM · ANP</p><h2 id="fuel-title">Radar de diesel S10</h2><div id="fuel-data" aria-live="polite">Consultando pesquisa de preços…</div></section>
     </section>
-    <section class="panel reference-box" aria-labelledby="federated-title"><h2 id="federated-title">Pesquisar também em outras plataformas</h2>
+    <section class="panel reference-box" id="regional"><p class="eyebrow">CONTATOS</p><h2>Empresas na região</h2><p class="subtle">Presença mapeada não garante carga disponível hoje. Confirme diretamente com a empresa.</p>
+      <details><summary>Meu perfil de caminhão</summary><label>Configuração para a mensagem de WhatsApp<select id="truck-profile"><option value="">Não informar</option><option>Rodotrem graneleiro</option><option>Bitrem graneleiro</option><option>Carreta graneleira</option><option>Carreta basculante</option><option>Carreta sider</option><option>Baú</option></select></label><small>Salvo somente neste navegador. A mensagem pode ser editada antes do envio.</small></details>
+      <div id="regional-list" class="ops-grid" aria-live="polite"></div></section>
+    <section class="panel reference-box" id="terminais"><p class="eyebrow">ACESSO RODOVIÁRIO</p><h2>Semáforo de terminais</h2><p class="subtle">O trânsito nas vias próximas não mede a fila dentro do pátio.</p><div id="traffic-list" class="ops-grid">Carregando terminais…</div></section>
+    <section class="panel reference-box" aria-labelledby="federated-title"><h2 id="federated-title">Onde buscar cargas</h2>
       <p><strong>Não encontrou fretes recentes aqui? Use os botões abaixo para buscar diretamente nas maiores plataformas do país.</strong></p>
       <p id="federated-context" class="subtle"></p><div id="federated-links" class="link-list"></div>
-      <nav class="link-list" aria-label="Portais oficiais"><a href="https://login.vectorapp.com.br/login">Vector</a><a href="https://www.tmov.com.br/caminhoneiros">Tmov</a><a href="https://www.amaggi.com.br/espaco-do-produtor/">AMAGGI · produtor e aplicativo</a><a href="https://www.cargill.com.br/">Cargill · site oficial</a><a href="https://www.rumolog.com/contato/">Rumo · atendimento e agendamento</a></nav></section>
+      <div id="ops-directory" class="ops-grid"></div><details><summary>Mais portais oficiais</summary><nav class="link-list" aria-label="Portais oficiais"><a href="https://www.tmov.com.br/caminhoneiros">Tmov</a><a href="https://www.amaggi.com.br/espaco-do-produtor/">AMAGGI · produtor e aplicativo</a><a href="https://www.cargill.com.br/">Cargill · site oficial</a><a href="https://www.rumolog.com/contato/">Rumo · atendimento e agendamento</a></nav></details></section>
     <details class="panel" id="corredores"><summary>Mapa de Corredores e Retorno</summary><p>Referências para planejar a volta, não anúncios de carga. Confirme oferta, equipamento e condições de limpeza antes de viajar.</p></details>
     <section aria-labelledby="results-title"><div class="bar"><h2 id="results-title">Oportunidades</h2><p id="count" role="status"></p></div><p id="updated" class="subtle"></p><div id="results" class="results"></div></section>
     <section class="panel reference-box" id="analisar" aria-labelledby="capture-title">

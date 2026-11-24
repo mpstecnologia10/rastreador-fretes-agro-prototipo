@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "raio_m": 2000,
+  "validade_s": 900,
+  "terminais": [
+    {
+      "id": "rumo-tro",
+      "nome": "Rumo · Terminal ferroviário",
+      "cidade": "Rondonópolis/MT",
+      "lat": -16.69237,
+      "lon": -54.66577,
+      "fonte_local": "https://www.rumolog.com/sala-de-imprensa/terminal-de-rondonopolis-tem-capacidade-para-receber-ate-2-mil-caminhoes-por-dia-no-auge-da-safra/",
+      "jam_level": null,
+      "observado_em": null
+    },
+    {
+      "id": "hbsa-miritituba",
+      "nome": "Hidrovias do Brasil · Miritituba",
+      "cidade": "Itaituba/PA",
+      "lat": -4.27239,
+      "lon": -55.94501,
+      "fonte_local": "https://www.semas.pa.gov.br/publicacoes/eia/hbsa_tapajos.pdf",
+      "jam_level": null,
+      "observado_em": null
+    },
+    {
+      "id": "graos-barcarena",
+      "nome": "Terminal Portuário Graneleiro",
+      "cidade": "Barcarena/PA",
+      "lat": -1.495675,
+      "lon": -48.726631,
+      "fonte_local": "https://www.gov.br/portos-e-aeroportos/pt-br/assuntos/transporte-aquaviario/planejamento-portuario/plano-de-desenvolvimento-e-zoneamento-pdz/arquivos-pdz/PMBelmeViladoConde.pdf",
+      "jam_level": null,
+      "observado_em": null
+    }
+  ]
+}

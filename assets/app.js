@@ -1,3 +1,5 @@
+import {contactActions,startOperations,updateOperations} from "./operations.js";
+startOperations();
 const el=id=>document.getElementById(id);
 const labels={NOVA:"Nova",RECENTE:"Recente",ANTIGA:"Antiga",POSSIVELMENTE_EXPIRADA:"Possivelmente expirada",EXPIRADA:"Expirada",PROVAVEL:"Provável",CONFIRMADA:"Confirmada pelo anunciante",NAO_CONFIRMADA:"Não confirmada",INCOMPATIVEL:"Incompatível",SINTETICA:"Sintética",PARCIAL:"Parcial",ALTO:"Alto",MEDIO:"Médio",BAIXO:"Baixo"};
 const localized=(v)=>labels[v]||v;
@@ -31,7 +33,7 @@ function card(r,o){
   a.append(text("p","Fontes: "+r.fontes.map(f=>state.registry.get(f.fonte_id)?.nome||f.fonte_id).join(", ")+" · Publicada em "+date.format(new Date(r.publicado_em)),"subtle"));
   for(const [i,f] of r.fontes.filter(f=>f.url).entries()) {if(i)a.append(" · ");a.append(link(i?"Outra oferta original":"Abrir oferta original",f.url));}
   if(!r.fontes.some(f=>f.url))a.append(text("p","Exemplo sem oferta original.","subtle"));
-  if(r.contato_empresarial && /^\+55\d{10,11}$/.test(r.contato_empresarial)){const a2=text("a","Ligar para contato empresarial");a2.href="tel:"+r.contato_empresarial;a.append(" · ",a2);}
+  if(!r.sintetico)contactActions(a,city(r.origem),r.contato_empresarial,r.whatsapp_empresarial);
   return a;
 }
 function render(){
@@ -110,7 +112,7 @@ async function start(){
       if(!fold([r.origem,r.destino,r.veiculo,r.atualidade].join(" ")).includes(fold(filter.value)))continue;
       const a=text("article","","card");a.append(text("h3",r.origem+" → "+r.destino),
         text("p",[r.produto,r.veiculo,r.valor_original,r.data_exibida].filter(Boolean).join(" · ")),
-        text("p",r.atualidade+" · "+localized(r.compatibilidade)),link(r.fonte,r.url));list.append(a);
+        text("p",r.atualidade+" · "+localized(r.compatibilidade)),link(r.fonte,r.url));contactActions(a,r.origem,r.contato_empresarial,r.whatsapp_empresarial);list.append(a);
     }} filter.addEventListener("input",cards);cards();
   }
   state.version=meta.snapshot_id;state.mode=meta.modo;
@@ -125,7 +127,8 @@ async function start(){
   options("age",["NOVA","RECENTE","ANTIGA","POSSIVELMENTE_EXPIRADA","EXPIRADA"]);
   el("search").addEventListener("submit",e=>{e.preventDefault();search()});
   for(const id of ["radius","product","config","compat","confidence","source","age","priced","critical","destination"])el(id).addEventListener("input",()=>{if(state.query)render();renderFederated()});
-  el("city").addEventListener("change",()=>{renderFederated();search()});renderFederated();await search();
+  const syncCity=()=>updateOperations(meta.hubs.find(c=>String(c.ibge)===el("city").value));
+  el("city").addEventListener("change",()=>{syncCity();renderFederated();search()});syncCity();renderFederated();await search();
 }
 start().catch(error);
 fetch("data/corredores_logisticos.json").then(r=>r.json()).then(rows=>{
