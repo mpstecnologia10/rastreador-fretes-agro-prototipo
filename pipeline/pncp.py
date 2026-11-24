@@ -3,9 +3,8 @@ import json
 import re
 import time
 from datetime import UTC, datetime, timedelta
-from urllib.error import HTTPError
+import requests
 from urllib.parse import urlencode
-from urllib.request import urlopen
 from zoneinfo import ZoneInfo
 from .build import ROOT, read, write
 from .domain import iso, key
@@ -49,10 +48,11 @@ def collect(now):
             for page in range(1,21):
                 query=urlencode(dict(dataFinal=(now+timedelta(days=60)).strftime("%Y%m%d"),codigoModalidadeContratacao=6,
                     pagina=page,tamanhoPagina=50,**({"cnpj":"26461699000180"} if city=="CONAB" else {"codigoMunicipioIbge":city})))
-                with urlopen(BASE+"?"+query,timeout=20) as res:
-                    if res.status==204:
+                with requests.get(BASE+"?"+query,timeout=20) as res:
+                    res.raise_for_status()
+                    if res.status_code==204:
                         complete.add(city);break
-                    payload=json.load(res)
+                    payload=res.json()
                 for r in payload["data"]:
                     scanned+=1
                     observed.add(r["numeroControlePNCP"])
@@ -61,9 +61,10 @@ def collect(now):
                 if not payload["paginasRestantes"]:
                     complete.add(city);break
                 time.sleep(5)
-        except HTTPError as e:
-            errors.append([city,e.code])
-            if e.code in (403,429):break
+        except requests.HTTPError as e:
+            code=e.response.status_code
+            errors.append([city,code])
+            if code in (403,429):break
         except (OSError,ValueError,KeyError) as e:
             errors.append([city,type(e).__name__])
             if not complete and len(errors)>=2:break

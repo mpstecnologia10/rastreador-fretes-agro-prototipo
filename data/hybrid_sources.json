@@ -1,4 +1,5 @@
 {
+  "dados-rs-transporte":{"acquisition_mode":"CONTEXT_SOURCE","requires_login":false,"terms_notes":"Base cartográfica institucional do Rio Grande do Sul. Contexto geográfico; não é bolsa de fretes."},
   "fretebras": {"acquisition_mode":"FEDERATED_SEARCH","terms_checked_at":"2026-11-22","terms_notes":"Termos 1.11 e 5.11: somente navegação, sem extração ou republicação.","requires_login":true,"search_url_template":"https://www.fretebras.com.br/fretes","origin_pages":{"5107602":"https://www.fretebras.com.br/fretes/carga-de-rondonopolis-mt/com-valor"},"supports_origin_param":true},
   "puxada": {"acquisition_mode":"FEDERATED_SEARCH","terms_checked_at":"2026-11-22","terms_notes":"Páginas públicas de região; a consulta local exige confirmar origem/destino no site. Sem permissão de ingestão.","requires_login":null,"search_url_template":"https://www.puxada.com.br/fretes","city_pages":{"5107602":"https://www.puxada.com.br/fretes/em/mt/rondonopolis"}},
   "motz": {"acquisition_mode":"FEDERATED_SEARCH","terms_notes":"Abrir site oficial; continuar no aplicativo. Sem parâmetros verificados."},

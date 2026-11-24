@@ -129,5 +129,9 @@ async function start(){
 }
 start().catch(error);
 fetch("data/corredores_logisticos.json").then(r=>r.json()).then(rows=>{
-  for(const r of rows)el("corredores").append(text("p",r.ida+": "+r.produto+" · Retorno "+r.volta+": "+r.retorno));
+  for(const r of rows){
+    const card=text("article","","card");
+    card.append(text("h3",r.ida),text("p","Ida: "+r.produto),text("p","Volta "+r.volta+": "+r.retorno),text("p",r.referencia,"subtle"));
+    el("corredores").append(card);
+  }
 }).catch(()=>el("corredores").append(text("p","Mapa indisponível.")));

@@ -1,5 +1,6 @@
 [
- {"ida":"MT → Nordeste","produto":"Milho","volta":"Nordeste → MT","retorno":"Sal ou gesso"},
- {"ida":"MT → PA","produto":"Soja","volta":"PA → MT","retorno":"Fertilizantes"},
- {"ida":"MT → MG","produto":"A confirmar","volta":"MG → MT","retorno":"A confirmar"}
+ {"ida":"MT → Nordeste (PE/BA/CE)","produto":"Milho","volta":"Nordeste → MT","retorno":"Sal (RN) e gesso (PE)","referencia":"Embarcadores de referência: Norsal, Cimsal e Supergesso"},
+ {"ida":"MT → MG","produto":"Soja e farelo","volta":"MG → MT","retorno":"Calcário e adubo","referencia":"Polos de retorno: Arcos, Pains e Uberaba (MG)"},
+ {"ida":"MT → PA","produto":"Soja e milho","volta":"PA → MT","retorno":"Fertilizantes importados","referencia":"Polos de retorno: Miritituba, Barcarena e Santarém (PA)"},
+ {"ida":"MATOPIBA → Nordeste","produto":"Grãos","volta":"Nordeste → MATOPIBA","retorno":"Insumos","referencia":"Polo: Luís Eduardo Magalhães (BA)"}
 ]

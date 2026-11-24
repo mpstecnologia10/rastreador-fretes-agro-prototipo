@@ -31,3 +31,4 @@ conab,Safra de Grãos,Conab,safra,https://www.gov.br/conab/pt-br/atuacao/informa
 anec,ANEC,ANEC,exportação,https://anec.com.br/estatisticas/,MT GO MS PR SP MG PA RS,manual,CONTEXT_ONLY,,Consulta de exportações.
 rodolivia,Rodolívia,Rodolívia,transportadora,https://rodoliviatransportes.com.br/,MT GO MS PR SP MG PA RS,site,PUBLIC_DISCOVERY,,Fretes próprios; investigar fornecimento voluntário.
 capture,Análise privada,Protótipo,entrada,,MT GO MS PR SP MG PA RS,manual,PRIVATE_ONLY,,Nenhuma coleta ou armazenamento.
+dados-rs-transporte,Base Cartográfica RS — Sistema de Transportes,Dados RS,infraestrutura,https://dados.rs.gov.br/dataset/base-cartografica-rs-secao-04-sistema-de-transportes,RS,manual,CONTEXT_ONLY,,Infraestrutura de transporte estadual; não representa cargas disponíveis.
