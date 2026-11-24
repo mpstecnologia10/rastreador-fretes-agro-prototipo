@@ -5,6 +5,11 @@ from bs4 import BeautifulSoup
 
 URL="https://roduno.com.br/fretes/carga-de-primavera-mt"
 
+def public_links(html):
+    return sorted({"https://roduno.com.br"+a["href"] for a in BeautifulSoup(html,"html.parser").select("a[href]")
+        if re.fullmatch(r"/fretes/(?:estado/[a-z]{2}|carga-de-[a-z0-9-]+)",a["href"])},
+        key=lambda url:(not url.endswith(("/mt","-mt")),url))
+
 def parse(html,url=URL):
     rows=[]
     for card in BeautifulSoup(html,"html.parser").select("article"):

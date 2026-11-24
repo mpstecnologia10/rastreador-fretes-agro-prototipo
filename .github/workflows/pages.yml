@@ -29,7 +29,7 @@ jobs:
           python -m pipeline.acquisition
           python -m pipeline.pncp
           python -m pip install beautifulsoup4
-          python -m pipeline.build --vitrines
+          if [ "${{ github.event_name }}" != "push" ]; then python -m pipeline.build --vitrines; fi
           python -m pipeline.build --include-showcase --public --inputs .cache/automatic-inputs --refresh-ibge --browser-runtime
       - uses: actions/upload-pages-artifact@v3
         with:

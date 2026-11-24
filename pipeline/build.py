@@ -250,12 +250,33 @@ def main():
                 html=get(url,3_000_000)
                 parsed=adapter.parse(html,url) if adapter is roduno else adapter.parse(html)
                 rows.extend(parsed);status[url]=len(parsed)
+                if url=="https://roduno.com.br/fretes":
+                    queue=roduno.public_links(html);seen={roduno.URL,url}
+                    for page in queue:
+                        if len(seen)>=75:break
+                        if page in seen or not robots.can_fetch("FretesAgroDiscovery",page):continue
+                        seen.add(page);sleep(max(2,robots.crawl_delay("FretesAgroDiscovery") or 0))
+                        try:
+                            body=get(page,3_000_000); found=roduno.parse(body,page)
+                            rows.extend(found);status[page]=len(found)
+                            if "/estado/" in page:queue.extend(p for p in roduno.public_links(body) if p not in queue)
+                        except (ValueError,OSError) as err:
+                            status[page]=type(err).__name__
+                            if getattr(err,"code",None) in (403,429):break
             except (OSError,ValueError) as exc:status[url]=type(exc).__name__
+        from .normalizer import MunicipalityIndex
+        city_file=args.cache/"ibge.json"
+        index=MunicipalityIndex(read(city_file)["municipios"] if city_file.exists() else download(IBGE))
+        distinct={}
         for row in rows:
+            for field in ("origem","destino"):
+                row[field],row[field+"_ibge"]=index.resolve(row[field])
             day=row.get("data_local")
-            row.update(vitrine=True,atualidade=("ANTIGA" if day<(datetime.now(UTC)-timedelta(days=7)).date().isoformat() else "RECENTE") if day else "SEM DATA DE PUBLICAÇÃO",
+            row.update(vitrine=True,atualidade=("ANTIGA" if day<(datetime.now(UTC)-timedelta(days=15)).date().isoformat() else "RECENTE") if day else "SEM DATA DE PUBLICAÇÃO",
                 compatibilidade="CONFIRMADA" if "rodotrem" in (row.get("veiculo") or "").lower() else "NAO_CONFIRMADA")
-        write(ROOT/"data/cargas.json",{"cargas":rows,"fontes":status})
+            signature=tuple(row.get(k) for k in ("fonte","origem","destino","valor_original","data_exibida","veiculo","produto"))
+            distinct.setdefault(signature if row["fonte"]=="Roduno" else row["url"],row)
+        write(ROOT/"data/cargas.json",{"cargas":list(distinct.values()),"fontes":status})
         print(status);return
     if args.osrm and (args.public or not args.demo): p.error("OSRM demonstrativo só no teste sintético local")
     m=run(args)
