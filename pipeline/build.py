@@ -168,6 +168,7 @@ def run(args):
     snapshot=digest(("demo" if args.demo else "real")+now.isoformat()+json.dumps([loads,report],sort_keys=True))
     shared={"schema_version":SCHEMA,"snapshot_id":snapshot,"modo":"DEMO" if args.demo else "REAL"}
     data=args.output/"data"
+    write(data/"corredores_logisticos.json",read(ROOT/"data/corredores_logisticos.json"))
     archive=read(ROOT/"data/conab_encerrados.json",[])
     latest=read(ROOT/".cache/conab-public.json",[])
     write(data/"conab.json",list({r["id"]:r for r in archive+latest}.values()) if args.public else [])
@@ -278,7 +279,12 @@ def main():
             row.update(vitrine=True,atualidade=("ANTIGA" if day<(datetime.now(UTC)-timedelta(days=15)).date().isoformat() else "RECENTE") if day else "SEM DATA DE PUBLICAÇÃO",
                 compatibilidade="CONFIRMADA" if "rodotrem" in (row.get("veiculo") or "").lower() else "NAO_CONFIRMADA")
             signature=tuple(row.get(k) for k in ("fonte","origem","destino","valor_original","data_exibida","veiculo","produto"))
-            distinct.setdefault(signature if row["fonte"]=="Roduno" else row["url"],row)
+            # Mesmo link individual pode ser sindicado por mais de uma vitrine.
+            # Uma página de listagem nunca identifica uma carga individual.
+            ident=("oferta",row["url"]) if row.get("tipo_url")!="listagem" else signature
+            grouped=distinct.setdefault(ident,row)
+            sources=grouped.setdefault("fontes_vitrine",[])
+            if row["fonte"] not in sources:sources.append(row["fonte"])
         write(ROOT/"data/cargas.json",{"cargas":list(distinct.values()),"fontes":status})
         print(status);return
     if args.osrm and (args.public or not args.demo): p.error("OSRM demonstrativo só no teste sintético local")

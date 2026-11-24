@@ -128,3 +128,6 @@ async function start(){
   el("city").addEventListener("change",()=>{renderFederated();search()});renderFederated();await search();
 }
 start().catch(error);
+fetch("data/corredores_logisticos.json").then(r=>r.json()).then(rows=>{
+  for(const r of rows)el("corredores").append(text("p",r.ida+": "+r.produto+" · Retorno "+r.volta+": "+r.retorno));
+}).catch(()=>el("corredores").append(text("p","Mapa indisponível.")));
