@@ -241,10 +241,13 @@ def main():
     p.add_argument("--inputs",type=Path,default=ROOT/"data/manual_authorized")
     args=p.parse_args()
     if args.vitrines:
-        from .adapters import jcl,roduno,brasa_cargas
+        from .adapters import jcl,roduno,brasa_cargas,freteemtemporeal
         from .discovery import get
         from urllib.robotparser import RobotFileParser
         rows=[]; status={}
+        try:
+            recent=freteemtemporeal.collect();rows.extend(recent);status[freteemtemporeal.URL]=len(recent)
+        except (OSError,ValueError) as exc:status[freteemtemporeal.URL]=str(exc)[:100]
         for adapter,url in ((jcl,jcl.URL),(roduno,roduno.URL),(roduno,"https://roduno.com.br/fretes"),(brasa_cargas,brasa_cargas.URL)):
             try:
                 robots=RobotFileParser()
@@ -255,7 +258,11 @@ def main():
                 parsed=adapter.parse(html,url) if adapter is roduno else adapter.parse(html)
                 rows.extend(parsed);status[url]=len(parsed)
                 if url=="https://roduno.com.br/fretes":
-                    queue=roduno.public_links(html);seen={roduno.URL,url}
+                    routes=roduno.route_links(html)
+                    sm="https://roduno.com.br/sitemap.xml"
+                    if not routes and robots.can_fetch("FretesAgroDiscovery",sm):
+                        sleep(2);routes=roduno.route_links(get(sm,3_000_000))
+                    queue=routes;seen={roduno.URL,url}
                     for page in queue:
                         if len(seen)>=75:break
                         if page in seen or not robots.can_fetch("FretesAgroDiscovery",page):continue
@@ -276,6 +283,7 @@ def main():
             for field in ("origem","destino"):
                 row[field],row[field+"_ibge"]=index.resolve(row[field])
             day=row.get("data_local")
+            if row["fonte"]=="Roduno" and not ((datetime.now(UTC)-timedelta(days=15)).date().isoformat() <= (day or "") <= datetime.now(UTC).date().isoformat()):continue
             row.update(vitrine=True,atualidade=("ANTIGA" if day<(datetime.now(UTC)-timedelta(days=15)).date().isoformat() else "RECENTE") if day else "SEM DATA DE PUBLICAÇÃO",
                 compatibilidade="CONFIRMADA" if "rodotrem" in (row.get("veiculo") or "").lower() else "NAO_CONFIRMADA")
             signature=tuple(row.get(k) for k in ("fonte","origem","destino","valor_original","data_exibida","veiculo","produto"))

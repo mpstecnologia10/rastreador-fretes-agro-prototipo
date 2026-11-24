@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install requests pytest && python -m pytest tests -q
+      - run: python -m pip install requests beautifulsoup4 pytest && python -m pytest tests -q
       - uses: actions/cache@v4
         with:
           path: .cache/pncp-opportunities.json
@@ -28,7 +28,6 @@ jobs:
         run: |
           python -m pipeline.acquisition
           python -m pipeline.pncp
-          python -m pip install beautifulsoup4
           python -m pipeline.adapters.conab || echo "::warning::Aviso Conab indisponível"
           if [ "${{ github.event_name }}" != "push" ]; then python -m pipeline.build --vitrines; fi
           python -m pipeline.build --include-showcase --public --inputs .cache/automatic-inputs --refresh-ibge --browser-runtime

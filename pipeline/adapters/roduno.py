@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 
 URL="https://roduno.com.br/fretes/carga-de-primavera-mt"
 
+def route_links(raw):
+    paths=re.findall(r'(?:href=["\x27]|<loc>)(?:https://roduno\.com\.br)?(/fretes/rota/[a-z0-9-]+)(?=["\x27<])',raw.decode())
+    return ["https://roduno.com.br"+p for p in dict.fromkeys(paths) if "-mt-para-" in p][:25]
+
 def public_links(html):
     return sorted({"https://roduno.com.br"+a["href"] for a in BeautifulSoup(html,"html.parser").select("a[href]")
         if re.fullmatch(r"/fretes/(?:estado/[a-z]{2}|carga-de-[a-z0-9-]+)",a["href"])},
@@ -19,6 +23,7 @@ def parse(html,url=URL):
         price=re.search(r"R\$\s*[\d.]+,\d{2}",m[3])
         stamp=datetime.strptime(m[4],"%d/%m/%Y às %H:%M").replace(tzinfo=ZoneInfo("America/Cuiaba"))
         vehicle=re.search(r"rodotrem|graneleiro|bitrem|basculante|toco",m[3],re.I)
+        product=card.select_one("div.flex-wrap > span:first-child")
         rows.append(dict(origem=m[1],destino=m[2],valor_original=price[0] if price else None,veiculo=vehicle[0] if vehicle else None,
-            produto=None,peso=None,fonte="Roduno",url=url,tipo_url="listagem",data_exibida=m[4],data_local=stamp.date().isoformat()))
+            produto=product.get_text(strip=True) if product else None,peso=None,fonte="Roduno",url=url,tipo_url="listagem",data_exibida=m[4],data_local=stamp.date().isoformat()))
     return rows
