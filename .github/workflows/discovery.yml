@@ -44,12 +44,14 @@ jobs:
       - run: pip install beautifulsoup4
       - run: python3 -m pipeline.scale_sprint
       - run: python3 -m pipeline.distribution --graph
+      - run: python3 -m pipeline.sitemap_offers
       - uses: actions/upload-artifact@v4
         with:
           name: institutional-navigation
           path: |
             .cache/scale-scan.json
             .cache/source-graph.json
+            .cache/sitemap-offers.json
           include-hidden-files: true
           retention-days: 31
   discover-geo:
