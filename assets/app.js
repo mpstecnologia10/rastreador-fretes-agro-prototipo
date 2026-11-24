@@ -93,6 +93,21 @@ el("export").addEventListener("click",()=>{const u=URL.createObjectURL(new Blob(
 async function start(){
   const [meta,loads,s]=await Promise.all(["meta","cargas","sources_registry"].map(n=>get("data/"+n+".json")));
   if([loads,s].some(v=>v.snapshot_id!==meta.snapshot_id||v.modo!==meta.modo))throw new Error();
+  const vitrines=loads.cargas.filter(r=>r.vitrine);
+  loads.cargas=loads.cargas.filter(r=>!r.vitrine);
+  if(vitrines.length){
+    const panel=document.createElement("section");panel.className="panel";
+    panel.append(text("h2","Vitrine nacional · "+vitrines.length+" anúncios"),text("p","Inclui históricos. Confira a disponibilidade na fonte antes de viajar."));
+    const filter=document.createElement("input");filter.placeholder="Filtrar cidade, veículo ou atualidade";filter.setAttribute("aria-label",filter.placeholder);
+    const list=document.createElement("div");panel.append(filter,list);
+    el("results").after(panel);
+    function cards(){list.replaceChildren();for(const r of vitrines){
+      if(!fold([r.origem,r.destino,r.veiculo,r.atualidade].join(" ")).includes(fold(filter.value)))continue;
+      const a=text("article","","card");a.append(text("h3",r.origem+" → "+r.destino),
+        text("p",[r.produto,r.veiculo,r.valor_original,r.data_exibida].filter(Boolean).join(" · ")),
+        text("p",r.atualidade+" · "+localized(r.compatibilidade)),link(r.fonte,r.url));list.append(a);
+    }} filter.addEventListener("input",cards);cards();
+  }
   state.version=meta.snapshot_id;state.mode=meta.modo;
   if(meta.modo==="DEMO")el("notice").textContent="Demonstração com ofertas fictícias. Não são fretes disponíveis para contratação.";
   el("updated").textContent="Snapshot: "+date.format(new Date(meta.atualizado_em))+" (Cuiabá) · Raio calculado em linha reta.";

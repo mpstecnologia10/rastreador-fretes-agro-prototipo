@@ -175,7 +175,8 @@ def run(args):
     hubs=[cities.ids[x] for x in cities.hubs]
     for hub in hubs:
         write(data/"oportunidades"/(hub["ibge"]+".json"),{**shared,"municipio":hub,"oportunidades":opportunities(hub,loads,routing)})
-    write(data/"cargas.json",{**shared,"cargas":loads})
+    showcase=read(ROOT/"data/cargas.json",{"cargas":[]})["cargas"] if getattr(args,"include_showcase",False) and not args.demo else []
+    write(data/"cargas.json",{**shared,"cargas":loads+showcase})
     write(data/"sources_registry.json",{**shared,"fontes":report})
     geographic=read(ROOT/"data/geo_entities.json",{})
     for name in ("geo_entities.json","company_platform_map.json","route_context.json","api_registry.json","discovery_snapshot.json"):
@@ -224,7 +225,9 @@ def osrm(a,b):
 def main():
     p=argparse.ArgumentParser(description="Gera o snapshot independente de busca de fretes")
     p.add_argument("--demo",action="store_true")
+    p.add_argument("--vitrines",action="store_true",help="Inspeciona anúncios HTML sem presumir vigência")
     p.add_argument("--public",action="store_true")
+    p.add_argument("--include-showcase",action="store_true")
     p.add_argument("--refresh-ibge",action="store_true")
     p.add_argument("--browser-runtime",action="store_true",help="Inclui o runtime verificado da análise privada")
     p.add_argument("--osrm",action="store_true",help="Apoio manual e limitado do protótipo; não usar em publicação agendada")
@@ -233,6 +236,27 @@ def main():
     p.add_argument("--cache",type=Path,default=ROOT/".cache")
     p.add_argument("--inputs",type=Path,default=ROOT/"data/manual_authorized")
     args=p.parse_args()
+    if args.vitrines:
+        from .adapters import jcl,roduno,brasa_cargas
+        from .discovery import get
+        from urllib.robotparser import RobotFileParser
+        rows=[]; status={}
+        for adapter,url in ((jcl,jcl.URL),(roduno,roduno.URL),(roduno,"https://roduno.com.br/fretes"),(brasa_cargas,brasa_cargas.URL)):
+            try:
+                robots=RobotFileParser()
+                robots.parse(get("https://"+urlsplit(adapter.URL).hostname+"/robots.txt").decode().splitlines())
+                if not robots.can_fetch("FretesAgroDiscovery",url):raise ValueError("robots")
+                sleep(max(2,robots.crawl_delay("FretesAgroDiscovery") or 0))
+                html=get(url,3_000_000)
+                parsed=adapter.parse(html,url) if adapter is roduno else adapter.parse(html)
+                rows.extend(parsed);status[url]=len(parsed)
+            except (OSError,ValueError) as exc:status[url]=type(exc).__name__
+        for row in rows:
+            day=row.get("data_local")
+            row.update(vitrine=True,atualidade=("ANTIGA" if day<(datetime.now(UTC)-timedelta(days=7)).date().isoformat() else "RECENTE") if day else "SEM DATA DE PUBLICAÇÃO",
+                compatibilidade="CONFIRMADA" if "rodotrem" in (row.get("veiculo") or "").lower() else "NAO_CONFIRMADA")
+        write(ROOT/"data/cargas.json",{"cargas":rows,"fontes":status})
+        print(status);return
     if args.osrm and (args.public or not args.demo): p.error("OSRM demonstrativo só no teste sintético local")
     m=run(args)
     print(json.dumps({k:v for k,v in m.items() if k!="hubs"},ensure_ascii=False))

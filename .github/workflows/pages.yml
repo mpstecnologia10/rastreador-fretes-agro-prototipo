@@ -28,7 +28,9 @@ jobs:
         run: |
           python -m pipeline.acquisition
           python -m pipeline.pncp
-          python -m pipeline.build --public --inputs .cache/automatic-inputs --refresh-ibge --browser-runtime
+          python -m pip install beautifulsoup4
+          python -m pipeline.build --vitrines
+          python -m pipeline.build --include-showcase --public --inputs .cache/automatic-inputs --refresh-ibge --browser-runtime
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
