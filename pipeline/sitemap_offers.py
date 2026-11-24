@@ -7,7 +7,7 @@ from urllib.error import HTTPError
 from urllib.parse import urlsplit
 from urllib.robotparser import RobotFileParser
 from xml.etree import ElementTree as ET
-from .build import ROOT,read,write
+from .build import ROOT,read,write,download,IBGE
 from .discovery import AGENT,get
 from .domain import safe_url
 from .normalizer import MunicipalityIndex
@@ -54,7 +54,14 @@ def scan(company,idx):
             if len(seen)>=20:break
             if url in seen or not rules.can_fetch(AGENT,url):continue
             seen.add(url);sleep(2)
-            index,urls=links(get(url,3_000_000),host)
+            try:raw=get(url,3_000_000)
+            except HTTPError as e:
+                dst=e.headers.get("Location","") if e.headers else ""
+                if e.code in (301,302,307,308) and dst and safe_url(dst)==dst and urlsplit(dst).hostname==host:
+                    if dst not in queue:queue.append(dst)
+                    continue
+                raise
+            index,urls=links(raw,host)
             if index:queue.extend(u for u in urls if u not in queue)
             else:result["candidatas"].extend(u for u in urls if rules.can_fetch(AGENT,u) and u not in result["candidatas"])
         if company.get("ingestion_possible"):
@@ -66,7 +73,8 @@ def scan(company,idx):
     except (ValueError,OSError,ET.ParseError) as e:return dict(result,status=str(getattr(e,"code",type(e).__name__)))
 
 if __name__=="__main__":
-    idx=MunicipalityIndex(read(ROOT/".cache/ibge.json",{"municipios":[]})["municipios"])
+    catalog=read(ROOT/".cache/ibge.json",{"municipios":[]})["municipios"]
+    idx=MunicipalityIndex(catalog or download(IBGE))
     with ThreadPoolExecutor(4) as pool:
         results=list(pool.map(lambda c:scan(c,idx),read(ROOT/"data/company_distribution_map.json")["companies"]))
     write(ROOT/".cache/sitemap-offers.json",results)
